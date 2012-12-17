@@ -1,0 +1,5 @@
+*.v11.suo
+*.jsproj.user
+*/AppPackages/
+*/bin/
+*/bld/
