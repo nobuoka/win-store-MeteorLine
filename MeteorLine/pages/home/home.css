@@ -1,18 +1,40 @@
-﻿.homepage section[role=main] {
-    margin-left: 120px;
-    margin-right: 120px;
+﻿
+.homepage header[role=banner] h1 {
+    margin: 2px 8px;
+    font-size: 36px;
 }
-
 @media screen and (-ms-view-state: snapped) {
-    .homepage section[role=main] {
-        margin-left: 20px;
-        margin-right: 20px;
+    .homepage header[role=banner] h1 {
+        font-size: 24px;
     }
 }
 
-@media screen and (-ms-view-state: fullscreen-portrait) {
-    .homepage section[role=main] {
-        margin-left: 100px;
-        margin-right: 100px;
-    }
+.homepage section[role=main] {
+    display: -ms-grid;
+    -ms-grid-rows: auto 1fr;
+    -ms-grid-columns: 100%;
+}
+
+@media screen and (-ms-view-state: portrait) {
+}
+
+.homepage section[role=main] > .buttons {
+    margin: 10px;
+    margin-bottom: 0;
+    box-sizing: border-box;
+    -ms-grid-row: 1;
+    -ms-grid-column: 1;
+}
+.homepage section[role=main] > .container {
+    box-sizing: border-box;
+    -ms-grid-row: 2;
+    -ms-grid-column: 1;
+
+    display: -ms-grid;
+    -ms-grid-columns: 100%;
+    -ms-grid-rows: 100%;
+}
+.homepage section[role=main] > .container > div {
+    -ms-grid-column: 1;
+    -ms-grid-row: 1;
 }
