@@ -13,17 +13,34 @@
     <link href="AccountAddingView.css" rel="stylesheet" />
     <script src="AccountAddingView.js"></script>
 </head>
-<body>
-    <div class="AccountAddingView fragment">
-        <header aria-label="Header content" role="banner">
-            <button class="win-backbutton" aria-label="Back" disabled type="button"></button>
-            <h1 class="titlearea win-type-ellipsis">
-                <span class="pagetitle">AccountAddingView へようこそ</span>
-            </h1>
-        </header>
-        <section aria-label="Main content" role="main">
-            <p>コンテンツをここに挿入。</p>
+<!-- body 要素の class は実際には反映されない. JS 側で PageControl のホスト要素に同名のクラスを設定すること -->
+<body class="account-adding-view-component">
+    <section>
+        <h1>アカウント管理</h1>
+        <section>
+            <h1>アカウント追加</h1>
+            <button class="reset-button">アカウント追加処理を最初からやり直す</button>
+            <div class="process">
+                <div class="initial">
+                    <button>Twitter アカウントの認証処理を開始</button>
+                </div>
+                <div class="progress">
+                    <progress></progress>
+                </div>
+                <div class="verify-form">
+                    <p><a class="verify-uri" href="#"></a> にアクセスして許可を行い, 表示された文字列を次のフィールドに入力してください.</p>
+                    <input class="verifier-input" type="text"/>
+                    <button class="verifier-ok-button">OK</button>
+                </div>
+                <div class="message-box">
+                    <p class="message"></p>
+                </div>
+            </div>
+            <p><a href="https://twitter.com/signup">New to Twitter? Register at Twitter.com</a></p>
         </section>
-    </div>
+        <div class="account-list-view-container">
+            <div>TODO: アカウント一覧表示</div>
+        </div>
+    </section>
 </body>
 </html>
