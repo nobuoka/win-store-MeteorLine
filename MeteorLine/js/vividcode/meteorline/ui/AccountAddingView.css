@@ -11,6 +11,13 @@
     background-color: #333333;
 }
 
+.account-adding-view-component .process {
+    margin-bottom: 10px;
+}
+.account-adding-view-component .process > .hide,
+.account-adding-view-component > section > section > .hide {
+    display: none;
+}
 .account-adding-view-component > section > h1 {
     margin: 12px 8px;
     font-size: 24px;
