@@ -15,6 +15,7 @@
     <script src="/js/vividcode/twitter/OAuthCredentialsObtainer.js"></script>
 
     <script src="/js/vividcode/meteorline/Config.js"></script>
+    <script src="/js/vividcode/meteorline/ui/AccountListView.js"></script>
 
     <link href="AccountAddingView.css" rel="stylesheet" />
     <script src="AccountAddingView.js"></script>
@@ -45,7 +46,8 @@
             <p><a href="https://twitter.com/signup">New to Twitter? Register at Twitter.com</a></p>
         </section>
         <div class="account-list-view-container">
-            <div>TODO: アカウント一覧表示</div>
+            <div data-win-control="vividcode.meteorline.ui.AccountListView"
+                data-win-options="{ accountList: vividcode.meteorline.global.accountList }"></div>
         </div>
     </section>
 </body>

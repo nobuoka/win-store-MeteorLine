@@ -46,12 +46,17 @@
         // 終了処理
         unload: function () {
             if (this._processingPromise) this._processingPromise.cancel();
+            // 子の PageControl の unload 呼び出し
+            var pageControl = this.element.querySelector(".account-list-view-container > .pagecontrol").winControl;
+            if (pageControl.unload) pageControl.unload();
         },
 
         show: function () {
             this.element.classList.remove("hide");
+            this.element.querySelector(".account-list-view-container").firstElementChild.winControl.show();
         },
         hide: function () {
+            this.element.querySelector(".account-list-view-container").firstElementChild.winControl.hide();
             this.element.classList.add("hide");
         },
 

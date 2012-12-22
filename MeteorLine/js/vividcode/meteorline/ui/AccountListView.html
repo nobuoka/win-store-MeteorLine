@@ -13,17 +13,16 @@
     <link href="AccountListView.css" rel="stylesheet" />
     <script src="AccountListView.js"></script>
 </head>
-<body>
-    <div class="AccountListView fragment">
-        <header aria-label="Header content" role="banner">
-            <button class="win-backbutton" aria-label="Back" disabled type="button"></button>
-            <h1 class="titlearea win-type-ellipsis">
-                <span class="pagetitle">AccountListView へようこそ</span>
-            </h1>
-        </header>
-        <section aria-label="Main content" role="main">
-            <p>コンテンツをここに挿入。</p>
-        </section>
-    </div>
+<!-- body 要素の class は実際には反映されない. JS 側で PageControl のホスト要素に同名のクラスを設定すること -->
+<body class="account-list-view-component">
+    <section>
+        <h1>アカウント一覧</h1>
+        <div class="account-list-view" data-win-control="WinJS.UI.ListView"></div>
+
+        <div data-win-control="WinJS.UI.Menu" class="timeline-list-view-item-menu"></div>
+        <div class="account-list-item-template" data-win-control="WinJS.Binding.Template">
+            <span class="account-screenId" data-win-bind="textContent: screenId"></span> (<span class="account-type" data-win-bind="textContent: type"></span>)
+        </div>
+    </section>
 </body>
 </html>
