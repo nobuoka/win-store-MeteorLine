@@ -18,11 +18,6 @@
     box-sizing: border-box;
 }
 .timelines-container-view-component .timeline-views-container {
-    /*
-    -ms-flex: 0 1 auto;
-    height: 100%;
-    box-sizing: border-box;
-    */
     display: -ms-flexbox;
     -ms-flex-direction: row;
     padding: 15px 8px 35px 8px;
