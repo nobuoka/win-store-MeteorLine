@@ -3,6 +3,9 @@
 (function () {
     "use strict";
 
+    var CONSUMER_KEY = vividcode.meteorline.Config.twitter.consumerKey;
+    var CONSUMER_SECRET = vividcode.meteorline.Config.twitter.consumerSecret;
+
     var AccountAddingView = WinJS.UI.Pages.define("/js/vividcode/meteorline/ui/AccountAddingView.html", {
         /// <field type="HTMLElement">この PageControl をホストする HTML 要素</field>
         element: null, // IntelliSense のために宣言しているだけ; 値の設定は PageControl のコンストラクタで行われる
@@ -10,6 +13,10 @@
         _processElems: null,
         /// <field type="HTMLElement">アカウント追加処理の最初に戻るためのボタン</field>
         _resetButton: null,
+        /// <field type="WinJS.Promise">処理中の Promise. 再初期化するときはこれを cancel すること</field>
+        _processingPromise: null,
+        /// <field type="vividcode.meteorline.twitter.OAuthCredentialsObtainer">Twitter OAuth 認証のトークン取得処理を担うオブジェクト</field>
+        _credsObtainer: null,
 
         // 初期化処理: コンストラクタで行うような処理はここで実行する
         init: function (element, options) {
@@ -17,10 +24,10 @@
             if (!options) options = {};
             if (options.initHide) this.hide();
             this._processElems = {};
+            this._processingPromise = null;
         },
 
-        // この関数は、ユーザーがこのページに移動するたびに呼び出されます。
-        // ページ要素にアプリケーションのデータを設定します。
+        // この PageControl の中身が使えるようになった状態になった後に行う処理
         ready: function (element, options) {
             // 処理中に表示する各種要素の取得
             this._processElems.initial = this.element.getElementsByClassName("initial").item(0);
@@ -33,8 +40,9 @@
             this.__initialize();
         },
 
+        // 終了処理
         unload: function () {
-            // TODO: このページからの移動に対応します。
+            if (this._processingPromise) this._processingPromise.cancel();
         },
 
         show: function () {
@@ -48,9 +56,14 @@
             /// <summary>OAuth 認証の Temporary Credentials の取得処理を行う</summary>
             var that = this;
             this.__showProgress();
-            // TODO: Twitter のサーバーに Temporary Credentials を要求する処理の実装
-            WinJS.Promise.timeout(500).then(function () {
-                that.__showVerifyForm("[[URI]]");
+            var promise = this._processingPromise = this._credsObtainer.requestTemporaryCredentials().then(function (tempCreds) {
+                that.__showVerifyForm(that._credsObtainer.getResourceOwnerAuthorizationUriStr());
+            }, function onError(err) {
+                if (err && err.name === "Canceled" && err.description === "Canceled") return; // do nothing
+                that.__showMessage(err);
+            }).then(function () { // 上で非同期処理を返さなければ, then の間に別の処理が入ることはない
+                promise.done();
+                if (that._processingPromise === promise) that._processingPromise = null;
             });
         },
 
@@ -59,9 +72,16 @@
             var that = this;
             that.__showProgress();
             var verifier = that._processElems.verifyForm.getElementsByClassName("verifier-input").item(0).value;
-            // TODO: Twitter のサーバーに Token Credentials を要求する処理の実装
-            WinJS.Promise.timeout(500).then(function () {
+            var promise = this._processingPromise = this._credsObtainer.requestTokenCredentials(verifier).then(function (tokenCreds) {
                 that.__showMessage("OK!");
+                // TODO 取得したトークンを保存
+                console.dir(tokenCreds);
+            }, function onError(err) {
+                if (err && err.name === "Canceled" && err.description === "Canceled") return; // do nothing
+                that.__showMessage(err);
+            }).then(function () { // 上で非同期処理を返さなければ, then の間に別の処理が入ることはない
+                promise.done();
+                if (that._processingPromise === promise) that._processingPromise = null;
             });
         },
 
@@ -83,6 +103,8 @@
         __reinitialize: function () {
             /// <summary>アカウント追加処理の最初の状態にする</summary>
             // 複数回呼び出してよい
+            if (this._processingPromise) this._processingPromise.cancel();
+            this._credsObtainer = new vividcode.twitter.OAuthCredentialsObtainer(CONSUMER_KEY, CONSUMER_SECRET);
             this.__hideAllProcessElems();
             this._processElems.initial.classList.remove("hide");
             this._resetButton.classList.add("hide");
