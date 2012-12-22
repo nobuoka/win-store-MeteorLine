@@ -1,0 +1,32 @@
+﻿
+.timelines-container-view-component {
+    display: -ms-grid;
+    -ms-grid-columns: 100%;
+    -ms-grid-rows: 100%;
+}
+.timelines-container-view-component.hide {
+    display: none;
+}
+
+.timelines-container-view-component .vc-viewport {
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+.timelines-container-view-component .vc-surface {
+    display: inline-block;
+    height: 100%;
+    box-sizing: border-box;
+}
+.timelines-container-view-component .timeline-views-container {
+    display: -ms-flexbox;
+    -ms-flex-direction: row;
+    padding: 15px 8px 35px 8px;
+    overflow: hidden;
+    height: 100%;
+    box-sizing: border-box;
+}
+.timelines-container-view-component .timeline-views-container > .timeline-view-component {
+    width: 300px;
+    height: 100%;
+    margin: 0 5px;
+}

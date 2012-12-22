@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <title>TimelineView</title>
+
+    <!-- WinJS 参照 -->
+    <link href="//Microsoft.WinJS.1.0/css/ui-dark.css" rel="stylesheet" />
+    <script src="//Microsoft.WinJS.1.0/js/base.js"></script>
+    <script src="//Microsoft.WinJS.1.0/js/ui.js"></script>
+    
+    <script src="/js/vividcode/meteorline/Config.js"></script>
+    <script src="/js/vividcode/twitter/TwitterClient.js"></script>
+
+    <link href="TimelineView.css" rel="stylesheet" />
+    <script src="TimelineView.js"></script>
+</head>
+<body class="timeline-view-component">
+    <div class="twitter-status-view-template" data-win-control="WinJS.Binding.Template">
+        <div class="status">
+            <div class="user-box">
+                <img class="profile-image" src="#" data-win-bind="src: user.profile_image_url_https" />
+                <span class="name" data-win-bind="textContent: user.name"></span>
+                <span class="screen-name">@<span data-win-bind="textContent: user.screen_name"></span></span>
+            </div>
+            <div class="text" data-win-bind="textContent: text"></div>
+        </div>
+    </div>
+    <section>
+        <h1>@<span data-win-bind="textContent: screenName"></span> - Home Timeline</h1>
+        <div class="stream-control">
+            <div class="stream-working hide">
+                <span class="stream-status">user stream is working</span>
+                <button class="stream-status-toggle-request">停止</button>
+            </div>
+            <div class="stream-not-working">
+                <span class="stream-status">not working</span>
+                <button class="stream-status-toggle-request">開始</button>
+            </div>
+        </div>
+        <div class="tweet-form">
+            <textarea></textarea>
+            <progress></progress>
+            <div class="error-message"></div>
+            <button class="tweet-button">投稿</button>
+            <button class="cancel-button">閉じる</button>
+        </div>
+        <div class="status-list"></div>
+    </section>
+</body>
+</html>
