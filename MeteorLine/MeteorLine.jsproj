@@ -65,6 +65,9 @@
     <Content Include="js\vividcode\meteorline\ui\AccountAddingView.css" />
     <Content Include="js\vividcode\meteorline\ui\AccountAddingView.html" />
     <Content Include="js\vividcode\meteorline\ui\AccountAddingView.js" />
+    <Content Include="js\vividcode\meteorline\ui\AccountListView.css" />
+    <Content Include="js\vividcode\meteorline\ui\AccountListView.html" />
+    <Content Include="js\vividcode\meteorline\ui\AccountListView.js" />
     <Content Include="js\vividcode\twitter\OAuthCredentialsObtainer.js" />
     <Content Include="pages\home\home.css" />
     <Content Include="pages\home\home.html" />
