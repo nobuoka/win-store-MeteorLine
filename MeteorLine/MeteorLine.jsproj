@@ -75,6 +75,7 @@
     <Content Include="js\vividcode\meteorline\ui\TimelineView.html" />
     <Content Include="js\vividcode\meteorline\ui\TimelineView.js" />
     <Content Include="js\vividcode\twitter\OAuthCredentialsObtainer.js" />
+    <Content Include="js\vividcode\twitter\TwitterClient.js" />
     <Content Include="pages\home\home.css" />
     <Content Include="pages\home\home.html" />
     <Content Include="pages\home\home.js" />
