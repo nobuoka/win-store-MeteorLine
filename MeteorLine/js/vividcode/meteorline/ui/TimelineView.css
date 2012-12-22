@@ -1,3 +1,80 @@
-﻿.TimelineView p {
-    margin-left: 120px;
+﻿
+.timeline-view-component {
+    display: -ms-grid;
+    -ms-grid-columns: 1fr;
+    -ms-grid-rows: 1fr;
+}
+.timeline-view-component.hide {
+    display: none;
+}
+
+.timeline-view-component > section{
+    border: solid 2px #666666;
+    border-radius: 8px;
+    padding-top: 8px;
+
+    display: -ms-flexbox;
+    -ms-flex-direction: column;
+}
+.timeline-view-component > section h1 {
+    font-size: 120%;
+    margin: 5px 8px;
+}
+.timeline-view-component .status-list {
+    -ms-flex: 1 1 auto;
+    overflow: auto;
+}
+
+
+.timeline-view-component .status {
+    position: relative;
+    margin: 5px 8px;
+    padding: 3px;
+    padding-left: 55px;
+    background-color: rgba(0, 0, 0, 0.7);
+    min-height: 48px;
+
+    overflow: auto;
+}
+.timeline-view-component .status .profile-image {
+    position: absolute;
+    top: 3px; left: 3px;
+    width: 48px; height: 48px;
+}
+.timeline-view-component .status .screen-name {
+    opacity: 0.6;
+}
+
+/* ---- stream の状態 ---- */
+.timeline-view-component .stream-control > .stream-working,
+.timeline-view-component .stream-control > .stream-not-working {
+    text-align: right;
+    margin-right: 8px;
+}
+.timeline-view-component .stream-control > .stream-working.hide,
+.timeline-view-component .stream-control > .stream-not-working.hide {
+    display: none;
+}
+
+/* ---- 投稿フォーム ---- */
+.timeline-view-component .tweet-form {
+    margin: 8px;
+}
+.timeline-view-component .tweet-form:not(.active) textarea {
+    height: 1.8em;
+    min-height: 1.8em;
+}
+.timeline-view-component .tweet-form textarea {
+    height: 4em;
+    width: 100%;
+    box-sizing: border-box;
+}
+.timeline-view-component .tweet-form:not(.active) button {
+    display: none;
+}
+.timeline-view-component .tweet-form.progress button {
+    display: none;
+}
+.timeline-view-component .tweet-form:not(.progress) progress {
+    display: none;
 }

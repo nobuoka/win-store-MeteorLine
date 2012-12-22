@@ -61,6 +61,17 @@
 
         // 終了処理
         unload: function () {
+            var tlViewElem = this._timelineViewsContainer.firstElementChild;
+            while (tlViewElem) {
+                var nextElem = tlViewElem.nextElementSibling;
+                var pageControl;
+                if (pageControl = tlViewElem.winControl) {
+                    // TODO remove と unload のどっちを先にすべき?
+                    pageControl.unload();
+                    this._timelineViewsContainer.removeChild(tlViewElem);
+                }
+                tlViewElem = nextElem;
+            }
         },
 
         show: function () {
@@ -71,12 +82,22 @@
         },
 
         __addTimelineView: function (accountInfo) {
-            // TODO TimelineView の追加
-            console.log("timeline view 追加");
+            this._timelineViewsContainer.appendChild(new vividcode.meteorline.ui.TimelineView(void 0, { account: accountInfo }).element);
         },
         __removeTimelineView: function (accountInfo) {
-            // TODO TimelineView の削除
-            console.log("timeline view 削除");
+            var tlViewElem = this._timelineViewsContainer.firstElementChild;
+            while (tlViewElem) {
+                var nextElem = tlViewElem.nextElementSibling;
+                var pageControl;
+                if (pageControl = tlViewElem.winControl) {
+                    if (pageControl.account.id === accountInfo.id) {
+                        // TODO remove と unload のどっちを先にすべき?
+                        pageControl.unload();
+                        this._timelineViewsContainer.removeChild(tlViewElem);
+                    }
+                }
+                tlViewElem = nextElem;
+            }
         },
 
         updateLayout: function (element, viewState, lastViewState) {
