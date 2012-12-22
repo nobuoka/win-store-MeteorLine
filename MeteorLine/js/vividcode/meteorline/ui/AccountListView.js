@@ -15,10 +15,28 @@
 
         // この PageControl の中身が使えるようになった状態になった後に行う処理
         ready: function (element, options) {
+            // アカウントリストの中身を取得; アカウントリストにリスナを設定
+            var that = this;
             /// <var name="listView" type="WinJS.UI.ListView">アカウント一覧を表示する ListView</var>
             var listView = this.element.getElementsByClassName("account-list-view").item(0).winControl;
             listView.itemDataSource = this._accountList.dataSource;
             listView.itemTemplate = this.element.getElementsByClassName("account-list-item-template").item(0);
+            // アイテムをクリックしたときの挙動
+            listView.addEventListener("iteminvoked", function (evt) {
+                var itemIndex = evt.detail.itemIndex;
+                /// <var name="itemMenu" type="WinJS.UI.Menu">アカウントに対する操作を表示する Menu</var>
+                var itemMenu = that.element.querySelector(".timeline-list-view-item-menu").winControl;
+                var menuCommands = [
+                    new WinJS.UI.MenuCommand(void 0, {
+                        label: "削除", onclick: function (evt) {
+                            // 削除
+                            that._accountList.splice(itemIndex, 1);
+                        }
+                    })
+                ];
+                itemMenu.commands = menuCommands;
+                itemMenu.show(evt.target);
+            });
         },
 
         // 終了処理
