@@ -17,11 +17,14 @@
         _processingPromise: null,
         /// <field type="vividcode.meteorline.twitter.OAuthCredentialsObtainer">Twitter OAuth 認証のトークン取得処理を担うオブジェクト</field>
         _credsObtainer: null,
+        /// <field type="WinJS.Binding.List">アカウント一覧</field>
+        _accountList: null,
 
         // 初期化処理: コンストラクタで行うような処理はここで実行する
+        // options のプロパティとして accountList を必ず渡すこと
         init: function (element, options) {
             element.classList.add("account-adding-view-component");
-            if (!options) options = {};
+            this._accountList = options.accountList;
             if (options.initHide) this.hide();
             this._processElems = {};
             this._processingPromise = null;
@@ -74,8 +77,28 @@
             var verifier = that._processElems.verifyForm.getElementsByClassName("verifier-input").item(0).value;
             var promise = this._processingPromise = this._credsObtainer.requestTokenCredentials(verifier).then(function (tokenCreds) {
                 that.__showMessage("OK!");
-                // TODO 取得したトークンを保存
-                console.dir(tokenCreds);
+                var targetIndex = void 0;
+                for (var i = 0, len = that._accountList.length; i < len; ++i) {
+                    var accountObj = that._accountList.getAt(i);
+                    if (accountObj.type === "twitter" && accountObj.id === tokenCreds.userId) {
+                        targetIndex = i;
+                        break;
+                    }
+                }
+                var accountObj = {
+                    type: "twitter",
+                    id: tokenCreds.userId,
+                    screenId: tokenCreds.screenName,
+                    tokenCreds: {
+                        token: tokenCreds.token,
+                        secret: tokenCreds.secret
+                    }
+                };
+                if (typeof targetIndex === "undefined") {
+                    that._accountList.push(accountObj);
+                } else {
+                    that._accountList.setAt(targetIndex, accountObj);
+                }
             }, function onError(err) {
                 if (err && err.name === "Canceled" && err.description === "Canceled") return; // do nothing
                 that.__showMessage(err);
