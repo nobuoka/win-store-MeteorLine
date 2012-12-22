@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <title>AccountAddingView</title>
+
+    <!-- WinJS 参照 -->
+    <link href="//Microsoft.WinJS.1.0/css/ui-dark.css" rel="stylesheet" />
+    <script src="//Microsoft.WinJS.1.0/js/base.js"></script>
+    <script src="//Microsoft.WinJS.1.0/js/ui.js"></script>
+
+    <script src="/js/oauth.js"></script>
+    <script src="/js/sha1.js"></script>
+    <script src="/js/vividcode/twitter/OAuthCredentialsObtainer.js"></script>
+
+    <script src="/js/vividcode/meteorline/Config.js"></script>
+
+    <link href="AccountAddingView.css" rel="stylesheet" />
+    <script src="AccountAddingView.js"></script>
+</head>
+<!-- body 要素の class は実際には反映されない. JS 側で PageControl のホスト要素に同名のクラスを設定すること -->
+<body class="account-adding-view-component">
+    <section>
+        <h1>アカウント管理</h1>
+        <section>
+            <h1>アカウント追加</h1>
+            <button class="reset-button">アカウント追加処理を最初からやり直す</button>
+            <div class="process">
+                <div class="initial">
+                    <button>Twitter アカウントの認証処理を開始</button>
+                </div>
+                <div class="progress">
+                    <progress></progress>
+                </div>
+                <div class="verify-form">
+                    <p><a class="verify-uri" href="#"></a> にアクセスして許可を行い, 表示された文字列を次のフィールドに入力してください.</p>
+                    <input class="verifier-input" type="text"/>
+                    <button class="verifier-ok-button">OK</button>
+                </div>
+                <div class="message-box">
+                    <p class="message"></p>
+                </div>
+            </div>
+            <p><a href="https://twitter.com/signup">New to Twitter? Register at Twitter.com</a></p>
+        </section>
+        <div class="account-list-view-container">
+            <div>TODO: アカウント一覧表示</div>
+        </div>
+    </section>
+</body>
+</html>

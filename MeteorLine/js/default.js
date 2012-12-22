@@ -9,11 +9,38 @@
     var activation = Windows.ApplicationModel.Activation;
     var nav = WinJS.Navigation;
 
+    var accountList = new WinJS.Binding.List();
+    WinJS.Namespace.define("vividcode.meteorline.global", {
+        accountList: accountList
+    });
+
     app.addEventListener("activated", function (args) {
         if (args.detail.kind === activation.ActivationKind.launch) {
             if (args.detail.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
                 // TODO: このアプリケーションは新しく起動しました。ここでアプリケーションを
                 // 初期化します。
+                var accountList = vividcode.meteorline.global.accountList;
+
+                var applicationData = Windows.Storage.ApplicationData.current;
+                var localSettings = applicationData.localSettings;
+                var accounts = JSON.parse(localSettings.values["accounts"] || "[]");
+                accounts.forEach(function (a) {
+                    accountList.push(a);
+                });
+                var saveAccounts = function () {
+                    // 保存
+                    var applicationData = Windows.Storage.ApplicationData.current;
+                    var localSettings = applicationData.localSettings;
+                    var accounts = accountList.map(function (account) {
+                        return account;
+                    });
+                    localSettings.values["accounts"] = JSON.stringify(accounts);
+                };
+                var al = accountList;
+                al.addEventListener("itemchanged", saveAccounts);
+                al.addEventListener("iteminserted", saveAccounts);
+                al.addEventListener("itemremoved", saveAccounts);
+                al.addEventListener("reload", saveAccounts);
             } else {
                 // TODO: このアプリケーションは中断状態から再度アクティブ化されました。
                 // ここでアプリケーションの状態を復元します。
