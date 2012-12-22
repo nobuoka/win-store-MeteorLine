@@ -3,16 +3,15 @@
 
     var MainViewContainer = WinJS.Class.define(function (element) {
         this.element = element;
-        // TODO 今は HTML 要素を直接操作しているが, 将来的には JS のオブジェクトを扱うように
-        this._timelinesContainerView = element.getElementsByClassName("timelines-container-view").item(0);
+        this._timelinesContainerView = element.getElementsByClassName("timelines-container-view").item(0).winControl;
         this._accountAddingView = element.getElementsByClassName("account-adding-view").item(0).winControl;
     }, {
         showTimelinesContainerView: function () {
             this._accountAddingView.hide();
-            this._timelinesContainerView.style.display = "";
+            this._timelinesContainerView.show();
         },
         showAccountAddingView: function () {
-            this._timelinesContainerView.style.display = "none";
+            this._timelinesContainerView.hide();
             this._accountAddingView.show();
         }
     });
@@ -28,8 +27,10 @@
             element.getElementsByClassName("button-timelines-container").item(0).addEventListener("click", function (evt) {
                 mvc.showTimelinesContainerView();
             }, false);
-            // 初期状態ではタイムライン一覧 view は表示しない
-            mvc.showAccountAddingView();
+            // 既にアカウントを持っている場合は, 最初にリスト一覧を表示する
+            if (vividcode.meteorline.global.accountList.length !== 0) {
+                mvc.showTimelinesContainerView();
+            }
         },
 
         unload: function () {
