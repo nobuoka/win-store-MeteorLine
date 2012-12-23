@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <title>AccountListView</title>
+
+    <!-- WinJS 参照 -->
+    <link href="//Microsoft.WinJS.1.0/css/ui-dark.css" rel="stylesheet" />
+    <script src="//Microsoft.WinJS.1.0/js/base.js"></script>
+    <script src="//Microsoft.WinJS.1.0/js/ui.js"></script>
+
+    <link href="AccountListView.css" rel="stylesheet" />
+    <script src="AccountListView.js"></script>
+</head>
+<!-- body 要素の class は実際には反映されない. JS 側で PageControl のホスト要素に同名のクラスを設定すること -->
+<body class="account-list-view-component">
+    <section>
+        <h1>アカウント一覧</h1>
+        <div class="account-list-view" data-win-control="WinJS.UI.ListView"></div>
+
+        <div data-win-control="WinJS.UI.Menu" class="timeline-list-view-item-menu"></div>
+        <div class="account-list-item-template" data-win-control="WinJS.Binding.Template">
+            <span class="account-screenId" data-win-bind="textContent: screenId"></span> (<span class="account-type" data-win-bind="textContent: type"></span>)
+        </div>
+    </section>
+</body>
+</html>

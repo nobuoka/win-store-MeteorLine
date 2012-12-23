@@ -13,18 +13,29 @@
     <link href="/css/default.css" rel="stylesheet" />
     <link href="/pages/home/home.css" rel="stylesheet" />
     <script src="/pages/home/home.js"></script>
+
+    <script src="/js/vividcode/meteorline/ui/AccountAddingView.js"></script>
+    <script src="/js/vividcode/meteorline/ui/TimelinesContainerView.js"></script>
 </head>
 <body>
     <!-- 読み込まれて表示されるコンテンツです。 -->
     <div class="fragment homepage">
         <header aria-label="Header content" role="banner">
-            <button class="win-backbutton" aria-label="Back" disabled type="button"></button>
             <h1 class="titlearea win-type-ellipsis">
-                <span class="pagetitle">MeteorLine へようこそ!</span>
+                <span class="pagetitle">MeteorLine</span>
             </h1>
         </header>
         <section aria-label="Main content" role="main">
-            <p>コンテンツをここに挿入。</p>
+            <div class="buttons">
+                <button class="button-account-adding">アカウント管理</button>
+                <button class="button-timelines-container">タイムライン一覧</button>
+            </div>
+            <div class="container">
+                <div class="account-adding-view" data-win-control="vividcode.meteorline.ui.AccountAddingView"
+                    data-win-options="{ accountList: vividcode.meteorline.global.accountList }"></div>
+                <div class="timelines-container-view" data-win-control="vividcode.meteorline.ui.TimelinesContainerView"
+                    data-win-options="{ accountList: vividcode.meteorline.global.accountList, initHide: true }"></div>
+            </div>
         </section>
     </div>
 </body>

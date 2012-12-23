@@ -59,10 +59,30 @@
     <Content Include="images\storelogo.png" />
     <Content Include="js\default.js" />
     <Content Include="js\navigator.js" />
+    <Content Include="js\oauth.js" />
+    <Content Include="js\sha1.js" />
+    <Content Include="js\vividcode\meteorline\Config.js" />
+    <Content Include="js\vividcode\meteorline\ui\AccountAddingView.css" />
+    <Content Include="js\vividcode\meteorline\ui\AccountAddingView.html" />
+    <Content Include="js\vividcode\meteorline\ui\AccountAddingView.js" />
+    <Content Include="js\vividcode\meteorline\ui\AccountListView.css" />
+    <Content Include="js\vividcode\meteorline\ui\AccountListView.html" />
+    <Content Include="js\vividcode\meteorline\ui\AccountListView.js" />
+    <Content Include="js\vividcode\meteorline\ui\TimelinesContainerView.css" />
+    <Content Include="js\vividcode\meteorline\ui\TimelinesContainerView.html" />
+    <Content Include="js\vividcode\meteorline\ui\TimelinesContainerView.js" />
+    <Content Include="js\vividcode\meteorline\ui\TimelineView.css" />
+    <Content Include="js\vividcode\meteorline\ui\TimelineView.html" />
+    <Content Include="js\vividcode\meteorline\ui\TimelineView.js" />
+    <Content Include="js\vividcode\twitter\OAuthCredentialsObtainer.js" />
+    <Content Include="js\vividcode\twitter\TwitterClient.js" />
     <Content Include="pages\home\home.css" />
     <Content Include="pages\home\home.html" />
     <Content Include="pages\home\home.js" />
     <Content Include="default.html" />
+    <Content Include="pages\setting\privacyPolicy.css" />
+    <Content Include="pages\setting\privacyPolicy.html" />
+    <Content Include="pages\setting\privacyPolicy.js" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.WinJS.1.0, Version=1.0" />
