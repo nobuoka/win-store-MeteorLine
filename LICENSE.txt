@@ -1,0 +1,43 @@
+本文書は、本リポジトリに含まれるファイルの使用許諾条件を記したものです。
+あなたが本リポジトリに含まれるファイルの一部、または全部を利用する際は、本文書に
+記された内容を守る必要があります。
+
+本プロジェクトに含まれるソースコードやその他のファイルの権利は、ファイル中に権利
+についての記述がない限りは原著作者である Nobuoka が保持します。
+我々は、あなたが個人で利用する限りにおいて、あなたがそれらのファイルを複製、改変
+することを許可します。 また、我々は、あなたが個人で利用する限りにおいて、あなた
+がそれらのソースコードをビルドし、ビルドされたパッケージをインストールして利用す
+ることを許可します。
+あなたが複製したファイルや改変したファイルについて、ソースコードの状態であれビル
+ドされた状態であれ、あなたが特定の第三者に譲渡することや不特定多数に配布すること
+は禁じます。
+
+本プロジェクトには、Apache License, Version 2.0 のもとで配布されている成果物が含
+まれています。 Apache License, Version 2.0 については Apache-License-2.0.txt を
+ご覧ください。
+Apache License, Version 2.0 のもとで配布されている成果物は、以下の 2 ファイルです。
+
+- MeteorLine/js/oauth.js
+- MeteorLine/js/sha1.js
+
+これらは、次のプロジェクトに含まれる成果物です。
+
+- http://code.google.com/p/oauth/
+
+
+All rights of All files in this project except files licensed under Apache License
+(Version 2.0) (we call these files "the Work") are reserved by Nobuoka.
+We allow you to reproduce or prepare Derivative Works of the Work in your personal
+use. We also allow you to build these files, and install and use built package in
+your personal use.
+We DON'T allow you to distribute copies of the Work or Derivative Works in either
+Source or Object form.
+
+This project includes files licensed under the Apache License, Version 2.0.
+
+- MeteorLine/js/oauth.js
+- MeteorLine/js/sha1.js
+
+These files are a part of following project:
+
+- http://code.google.com/p/oauth/
