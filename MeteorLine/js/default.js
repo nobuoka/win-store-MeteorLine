@@ -68,5 +68,18 @@
         app.sessionState.history = nav.history;
     };
 
+    // アプリ設定に関して - 参考 : http://vividcode.hatenablog.com/entry/winrt/app-settings-js
+    app.addEventListener("settings", function (evt) {
+        evt.detail.applicationcommands = {
+            // プロパティ名は SettingsFlyout コントロールの ID (settingsCommandId)
+            // title は設定ウィンドウの項目に表示される
+            // href はその SettingsFlyout コントロールが定義されている HTML ファイル
+            privacyPolicy: { title: "プライバシーポリシー", href: "/pages/setting/privacyPolicy.html" },
+            //name: { title: ..., href: ... },
+            // ...
+        };
+        WinJS.UI.SettingsFlyout.populateSettings(evt);
+    });
+
     app.start();
 })();
