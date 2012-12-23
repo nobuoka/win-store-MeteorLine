@@ -81,6 +81,9 @@
     <Content Include="pages\home\home.html" />
     <Content Include="pages\home\home.js" />
     <Content Include="default.html" />
+    <Content Include="pages\setting\appSetting.css" />
+    <Content Include="pages\setting\appSetting.html" />
+    <Content Include="pages\setting\appSetting.js" />
     <Content Include="pages\setting\privacyPolicy.css" />
     <Content Include="pages\setting\privacyPolicy.html" />
     <Content Include="pages\setting\privacyPolicy.js" />
