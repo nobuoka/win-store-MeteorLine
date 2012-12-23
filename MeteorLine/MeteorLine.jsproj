@@ -80,6 +80,9 @@
     <Content Include="pages\home\home.html" />
     <Content Include="pages\home\home.js" />
     <Content Include="default.html" />
+    <Content Include="pages\setting\privacyPolicy.css" />
+    <Content Include="pages\setting\privacyPolicy.html" />
+    <Content Include="pages\setting\privacyPolicy.js" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.WinJS.1.0, Version=1.0" />
