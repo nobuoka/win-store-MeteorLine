@@ -1,4 +1,8 @@
 ﻿
+body {
+    background-size: cover;
+}
+
 #contenthost {
     height: 100%;
     width: 100%;
