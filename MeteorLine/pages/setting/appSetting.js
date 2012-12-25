@@ -36,11 +36,13 @@
             var backgroundchangedEventListener = function (evt) {
                 that.__setRemovingBgImgButtonStatus();
             };
-            this.__setRemovingBgImgButtonStatus();
 
             /// <var type="WinJS.UI.SettingsFlyout">アプリの設定を行うための SettingsFlyout</var>
             var settingsFlyout = this.element.querySelector(".app-setting").winControl;
             settingsFlyout.addEventListener("beforeshow", function (evt) {
+                // 初期状態変更
+                that.__setRemovingBgImgButtonStatus();
+
                 settingBgImgButton.addEventListener("click", settingBgImgButtonClickedEventListener, false);
                 removingBgImgButton.addEventListener("click", removingBgImgButtonClickedEventListener, false);
                 vividcode.meteorline.global.backgroundImageManager.addEventListener("backgroundchanged", backgroundchangedEventListener, false);
