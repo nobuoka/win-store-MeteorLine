@@ -9,9 +9,8 @@
 }
 
 .timeline-view-component > section{
-    border: solid 2px #666666;
+    border: solid 2px rgba(0, 0, 0, 0.7);
     border-radius: 8px;
-    padding-top: 8px;
 
     display: -ms-flexbox;
     -ms-flex-direction: column;
@@ -25,13 +24,15 @@
     overflow: auto;
 }
 
+.timeline-view-component .timeline-view-header {
+    border-bottom: solid 1px rgba(0, 0, 0, 0.7);
+}
 
 .timeline-view-component .status {
     position: relative;
     margin: 5px 8px;
     padding: 3px;
     padding-left: 55px;
-    background-color: rgba(0, 0, 0, 0.7);
     min-height: 48px;
 
     overflow: auto;
