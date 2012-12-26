@@ -1,4 +1,6 @@
-﻿// ナビゲーション テンプレートの概要については、次のドキュメントを参照してください:
+﻿
+/// <reference path="/js/vividcode/meteorline/BackgroundImageManager.js" />
+// ナビゲーション テンプレートの概要については、次のドキュメントを参照してください:
 // http://go.microsoft.com/fwlink/?LinkId=232506
 (function () {
     "use strict";
@@ -11,14 +13,17 @@
 
     var accountList = new WinJS.Binding.List();
     WinJS.Namespace.define("vividcode.meteorline.global", {
-        accountList: accountList
+        accountList: accountList,
+        backgroundImageManager: new vividcode.meteorline.BackgroundImageManager(),
     });
 
     app.addEventListener("activated", function (args) {
         if (args.detail.kind === activation.ActivationKind.launch) {
             if (args.detail.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
-                // TODO: このアプリケーションは新しく起動しました。ここでアプリケーションを
+                // このアプリケーションは新しく起動しました。ここでアプリケーションを
                 // 初期化します。
+                vividcode.meteorline.global.backgroundImageManager.init();
+
                 var accountList = vividcode.meteorline.global.accountList;
 
                 var applicationData = Windows.Storage.ApplicationData.current;
@@ -75,6 +80,7 @@
             // title は設定ウィンドウの項目に表示される
             // href はその SettingsFlyout コントロールが定義されている HTML ファイル
             privacyPolicy: { title: "プライバシーポリシー", href: "/pages/setting/privacyPolicy.html" },
+            appSetting: { title: "アプリの設定", href: "/pages/setting/appSetting.html" },
             //name: { title: ..., href: ... },
             // ...
         };

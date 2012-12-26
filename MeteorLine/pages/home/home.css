@@ -38,3 +38,7 @@
     -ms-grid-column: 1;
     -ms-grid-row: 1;
 }
+
+.homepage section[role=main] > .buttons > span {
+    display: inline-block;
+}

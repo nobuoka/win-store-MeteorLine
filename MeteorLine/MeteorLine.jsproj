@@ -61,6 +61,7 @@
     <Content Include="js\navigator.js" />
     <Content Include="js\oauth.js" />
     <Content Include="js\sha1.js" />
+    <Content Include="js\vividcode\meteorline\BackgroundImageManager.js" />
     <Content Include="js\vividcode\meteorline\Config.js" />
     <Content Include="js\vividcode\meteorline\ui\AccountAddingView.css" />
     <Content Include="js\vividcode\meteorline\ui\AccountAddingView.html" />
@@ -80,6 +81,9 @@
     <Content Include="pages\home\home.html" />
     <Content Include="pages\home\home.js" />
     <Content Include="default.html" />
+    <Content Include="pages\setting\appSetting.css" />
+    <Content Include="pages\setting\appSetting.html" />
+    <Content Include="pages\setting\appSetting.js" />
     <Content Include="pages\setting\privacyPolicy.css" />
     <Content Include="pages\setting\privacyPolicy.html" />
     <Content Include="pages\setting\privacyPolicy.js" />

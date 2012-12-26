@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <title>appSetting</title>
+
+    <!-- WinJS 参照 -->
+    <link href="//Microsoft.WinJS.1.0/css/ui-dark.css" rel="stylesheet" />
+    <script src="//Microsoft.WinJS.1.0/js/base.js"></script>
+    <script src="//Microsoft.WinJS.1.0/js/ui.js"></script>
+
+    <link href="appSetting.css" rel="stylesheet" />
+    <script src="appSetting.js"></script>
+</head>
+<body>
+    <div class="appSetting fragment">
+        <div class="app-setting" data-win-control="WinJS.UI.SettingsFlyout" data-win-options="{settingsCommandId:'appSetting',width:'wide'}">
+            <!-- クラスには 'win-ui-light' か 'win-ui-dark' のどちらかを選択すれば良い (しなくてもいいと思われる) -->
+            <div class="win-ui-dark win-header" style="background-color:#333333"><!-- ヘッダの背景色はアプリのタイルの色に準ずること (ガイドラインより) -->
+                <!-- 設定ウィンドウを表示するボタン -->
+                <button type="button" onclick="WinJS.UI.SettingsFlyout.show()" class="win-backbutton"></button>
+                <h1 class="win-label">アプリの設定</h1>
+            </div>
+            <div class="win-content ">
+                <section class="win-settings-section">
+                    <h2>背景画像</h2>
+                    <p>このアプリの背景画像を設定できます。</p>
+                    <p>背景画像は、アプリ全体を覆うように縦横比を保ったまま拡大縮小されます。</p>
+                    <div>
+                        <button class="setting-background-image-button">背景画像を設定</button>
+                        <button class="removing-background-image-button">背景画像を削除</button>
+                    </div>
+                    <form class="setting-background-image-position-form">
+                        <div>
+                            <span>縦方向位置揃え</span> :
+                            <label><input type="radio" name="background-image-vertical-position" value="top" />上端</label>
+                            <label><input type="radio" name="background-image-vertical-position" value="center" checked="checked" />中央</label>
+                            <label><input type="radio" name="background-image-vertical-position" value="bottom" />下端</label>
+                        </div>
+                        <div>
+                            <span>横方向位置揃え</span> :
+                            <label><input type="radio" name="background-image-horizontal-position" value="left" />左端</label>
+                            <label><input type="radio" name="background-image-horizontal-position" value="center" checked="checked" />中央</label>
+                            <label><input type="radio" name="background-image-horizontal-position" value="right" />右端</label>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
