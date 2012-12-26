@@ -26,10 +26,25 @@
                 <section class="win-settings-section">
                     <h2>背景画像</h2>
                     <p>このアプリの背景画像を設定できます。</p>
+                    <p>背景画像は、アプリ全体を覆うように縦横比を保ったまま拡大縮小されます。</p>
                     <div>
                         <button class="setting-background-image-button">背景画像を設定</button>
                         <button class="removing-background-image-button">背景画像を削除</button>
                     </div>
+                    <form class="setting-background-image-position-form">
+                        <div>
+                            <span>縦方向位置揃え</span> :
+                            <label><input type="radio" name="background-image-vertical-position" value="top" />上端</label>
+                            <label><input type="radio" name="background-image-vertical-position" value="center" checked="checked" />中央</label>
+                            <label><input type="radio" name="background-image-vertical-position" value="bottom" />下端</label>
+                        </div>
+                        <div>
+                            <span>横方向位置揃え</span> :
+                            <label><input type="radio" name="background-image-horizontal-position" value="left" />左端</label>
+                            <label><input type="radio" name="background-image-horizontal-position" value="center" checked="checked" />中央</label>
+                            <label><input type="radio" name="background-image-horizontal-position" value="right" />右端</label>
+                        </div>
+                    </form>
                 </section>
             </div>
         </div>

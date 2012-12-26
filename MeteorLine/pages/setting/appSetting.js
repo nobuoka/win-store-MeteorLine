@@ -5,11 +5,18 @@
 (function () {
     "use strict";
 
+    var POS_INPUT_NAME_TO_SETTING_NAME_MAP = {
+        "background-image-horizontal-position": "horizontal",
+        "background-image-vertical-position": "vertical"
+    };
+
     WinJS.UI.Pages.define("/pages/setting/appSetting.html", {
         /// <field type="HTMLElement">この PageControl をホストする HTML 要素</field>
         element: null, // IntelliSense のために宣言しているだけ; 値の設定は PageControl のコンストラクタで行われる
         /// <field type="HTMLButtonElement">背景画像の削除をするボタン</field>
         _removingBgImgButton: null,
+        /// <field type="Array" elementType="HTMLInputElement">背景画像の表示位置を設定するためのラジオボタンの配列</field>
+        _bgImgPosButtons: null,
 
         // PageControl の読み込み処理の中で実行される処理
         // SettingsFlyout へのイベントリスナの登録はここでやる
@@ -25,12 +32,19 @@
 
             var settingBgImgButton = this.element.querySelector(".setting-background-image-button");
             var removingBgImgButton = this._removingBgImgButton = this.element.querySelector(".removing-background-image-button");
+            var bgImgPosButtons = this.element.querySelectorAll(".setting-background-image-position-form input");
+            bgImgPosButtons = this._bgImgPosButtons = Array.prototype.slice.call(bgImgPosButtons);
 
             var settingBgImgButtonClickedEventListener = function (evt) {
                 that.__setBackgroundImage();
             };
             var removingBgImgButtonClickedEventListener = function (evt) {
                 that.__removeBackgroundImage();
+            };
+            var settingBgImgPosButtonClickedEventListener = function (evt) {
+                var inputElem = evt.currentTarget;
+                var typeMap = POS_INPUT_NAME_TO_SETTING_NAME_MAP;
+                that.__setBackgroundImagePosition(typeMap[inputElem.name], inputElem.value);
             };
 
             var backgroundchangedEventListener = function (evt) {
@@ -42,14 +56,19 @@
             settingsFlyout.addEventListener("beforeshow", function (evt) {
                 // 初期状態変更
                 that.__setRemovingBgImgButtonStatus();
+                that.__setBgImgPosButtonsStatus();
+                    // 本来は背景画像の位置の設定変更に関してもイベントリスナを設定すべきだが,
+                    // いまのところここでしか変更されえないので設定していない
 
                 settingBgImgButton.addEventListener("click", settingBgImgButtonClickedEventListener, false);
                 removingBgImgButton.addEventListener("click", removingBgImgButtonClickedEventListener, false);
+                bgImgPosButtons.forEach(function (b) { b.addEventListener("change", settingBgImgPosButtonClickedEventListener, false) });
                 vividcode.meteorline.global.backgroundImageManager.addEventListener("backgroundchanged", backgroundchangedEventListener, false);
             }, false);
             settingsFlyout.addEventListener("afterhide", function (evt) {
                 settingBgImgButton.removeEventListener("click", settingBgImgButtonClickedEventListener, false);
                 removingBgImgButton.removeEventListener("click", removingBgImgButtonClickedEventListener, false);
+                bgImgPosButtons.forEach(function (b) { b.removeEventListener("change", settingBgImgPosButtonClickedEventListener, false) });
                 vividcode.meteorline.global.backgroundImageManager.removeEventListener("backgroundchanged", backgroundchangedEventListener, false);
             }, false);
         },
@@ -88,12 +107,36 @@
             vividcode.meteorline.global.backgroundImageManager.removeBackgroundImage();
         },
 
+        __setBackgroundImagePosition: function (type, value) {
+            var manager = vividcode.meteorline.global.backgroundImageManager;
+            if (type === "vertical") {
+                manager.setBackgroundImageVerticalPosition(value);
+            } else if (type === "horizontal") {
+                manager.setBackgroundImageHorizontalPosition(value);
+            } else {
+                // error
+            }
+        },
+
         __setRemovingBgImgButtonStatus: function () {
             if (vividcode.meteorline.global.backgroundImageManager.hasBackgroundImage()) {
                 this._removingBgImgButton.disabled = false;
+                this._bgImgPosButtons.forEach(function (b) { b.disabled = false });
             } else {
                 this._removingBgImgButton.disabled = true;
+                this._bgImgPosButtons.forEach(function (b) { b.disabled = true });
             }
+        },
+
+        __setBgImgPosButtonsStatus: function () {
+            /// <summary>背景画像の表示位置を調整するためのラジオボタンの状態を Model に合わせて変更する</summary>
+            var pos = vividcode.meteorline.global.backgroundImageManager.getBackgroundImagePosition();
+            // TODO
+            this._bgImgPosButtons.forEach(function (b) {
+                if (pos[POS_INPUT_NAME_TO_SETTING_NAME_MAP[b.name]] === b.value) {
+                    b.checked = true;
+                }
+            });
         },
     });
 })();
