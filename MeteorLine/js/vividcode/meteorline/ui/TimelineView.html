@@ -17,6 +17,7 @@
     <script src="TimelineView.js"></script>
 </head>
 <body class="timeline-view-component">
+    <!-- status 用テンプレート -->
     <div class="twitter-status-view-template" data-win-control="WinJS.Binding.Template">
         <div class="status s-glassiness">
             <div class="user-box">
@@ -27,6 +28,22 @@
             <div class="text" data-win-bind="textContent: text"></div>
         </div>
     </div>
+    <!-- retweeted status 用テンプレート -->
+    <div class="twitter-retweeted-status-view-template" data-win-control="WinJS.Binding.Template">
+        <div class="status retweeted-status s-glassiness">
+            <div class="user-box">
+                <img class="profile-image" src="#" data-win-bind="src: retweeted_status.user.profile_image_url_https" />
+                <span class="name" data-win-bind="textContent: retweeted_status.user.name"></span>
+                <span class="screen-name">@<span data-win-bind="textContent: retweeted_status.user.screen_name"></span></span>
+            </div>
+            <div class="text" data-win-bind="textContent: retweeted_status.text"></div>
+            <div class="retweeter-box">
+                <img class="profile-image" src="#" data-win-bind="src: user.profile_image_url_https" />
+                <span class="screen-name" data-win-bind="textContent: user.screen_name"></span>
+            </div>
+        </div>
+    </div>
+
     <section>
         <div class="timeline-view-header s-glassiness">
             <h1>@<span data-win-bind="textContent: screenName"></span> - Home Timeline</h1>

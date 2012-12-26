@@ -149,13 +149,19 @@
             }
 
             var statusTemplateElem = this.element.getElementsByClassName("twitter-status-view-template").item(0);
+            var retweetedStatusTemplateElem = this.element.getElementsByClassName("twitter-retweeted-status-view-template").item(0);
             this._idStrOfLastAddedStatus = statuses[0].id_str;
             //console.log(status.user.screen_name + ": " + status.text);
             /// <var name="statusTemplate" type="WinJS.Binding.Template">ツイッターの status を表示する HTML 要素のテンプレート</var>
             var statusTemplate = statusTemplateElem.winControl;//this.element.querySelector(".status-template").winControl;
+            var retweetedStatusTemplate = retweetedStatusTemplateElem.winControl;
             var statusListElem = this.element.querySelector(".status-list");
             var statusElemPromises = statuses.map(function (status) {
-                return statusTemplate.render(status);
+                if (status.retweeted_status) {
+                    return retweetedStatusTemplate.render(status);
+                } else {
+                    return statusTemplate.render(status);
+                }
             });
             WinJS.Promise.join(statusElemPromises).done(function (statusElems) {
                 var affectedItems = statusListElem.querySelectorAll(".win-template");
