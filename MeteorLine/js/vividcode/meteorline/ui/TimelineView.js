@@ -29,22 +29,35 @@
             tweetFormElem.querySelector(".error-message").textContent = "";
         }, false);
         tweetFormElem.querySelector("button.tweet-button").addEventListener("click", function (evt) {
+            that.sendStatus();
+        }, false);
+        // 返信をやめる
+        var replyCancelButton = element.querySelector(".reply-cancel-button");
+        replyCancelButton.addEventListener("click", function (evt) {
+            that.removeReplyTo();
+        }, false);
+    }, {
+        sendStatus: function () {
+            /// <summary>ツイートを送信する</summary>
+            var that = this;
+            var tweetFormElem = this.element;
             var status = tweetFormElem.querySelector("textarea").value;
             tweetFormElem.querySelector(".error-message").textContent = "";
             tweetFormElem.classList.add("progress");
             var opts = {};
-            if (that._replyTo) opts.in_reply_to_status_id = that._replyTo;
-            that._client.postStatus(status, opts).then(function () {
+            if (this._replyTo) opts.in_reply_to_status_id = this._replyTo;
+            this._client.postStatus(status, opts).then(function () {
+                // 正常に完了したら初期化
                 tweetFormElem.querySelector("textarea").value = "";
                 tweetFormElem.classList.remove("active");
+                that.removeReplyTo();
             }, function onError(err) {
                 tweetFormElem.querySelector(".error-message").textContent = "投稿に失敗しました : " + err.description;
                 console.dir(err);
             }).then(function () {
                 tweetFormElem.classList.remove("progress");
             });
-        }, false);
-    }, {
+        },
         setReplyTo: function (statusIdStr, screenName, elem) {
             /// <summary>返信先ステータスをセットする</summary>
             this.removeReplyTo();
@@ -56,6 +69,7 @@
             var e = elem.cloneNode(true);
             this._statusRepliedToContainer.appendChild(e);
             this.element.classList.add("active");
+            this.element.classList.add("reply");
         },
         removeReplyTo: function () {
             if (!this._replyTo) return;
@@ -70,6 +84,7 @@
 
             this._replyTo = void 0;
             this._replyToScreenName = "";
+            this.element.classList.remove("reply");
         },
     });
 

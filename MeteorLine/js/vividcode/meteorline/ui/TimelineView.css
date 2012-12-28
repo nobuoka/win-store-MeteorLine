@@ -94,3 +94,8 @@
 .timeline-view-component .tweet-form:not(.progress) progress {
     display: none;
 }
+/* 返信周り */
+.timeline-view-component .tweet-form:not(.active) .status-replied-to-box,
+.timeline-view-component .tweet-form:not(.reply) .status-replied-to-box {
+    display: none;
+}
