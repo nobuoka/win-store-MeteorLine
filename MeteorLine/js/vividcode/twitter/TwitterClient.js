@@ -8,7 +8,8 @@
         this._creds = creds;
         this._consumerKeys = consumerKeys;
     }, {
-        postStatus: function (status) {
+        postStatus: function (status, opts) {
+            /// <param name="opts" value="{ in_reply_to_status_id: '' }">オプション</param>
             /// <returns value='WinJS.Promise.wrap(new TemporaryCredentials())'>取得した OAuth の Request Token の情報</returns>
             var that = this;
             var consumerKeys = this._consumerKeys;
@@ -21,6 +22,7 @@
                 var parameters = [
                     ["status", status],
                 ];
+                if (opts.in_reply_to_status_id) parameters.push(["in_reply_to_status_id", opts.in_reply_to_status_id]);
                 // consumer key などの設定
                 var accessor = {
                     consumerKey: consumerKeys.key,

@@ -19,7 +19,7 @@
 <body class="timeline-view-component">
     <!-- status 用テンプレート -->
     <div class="twitter-status-view-template" data-win-control="WinJS.Binding.Template">
-        <div class="status s-glassiness">
+        <div class="status s-glassiness" data-win-bind="this['data-status-id']: id_str WinJS.Binding.setAttribute; this['data-user-screen-name']: user.screen_name WinJS.Binding.setAttribute">
             <div class="user-box">
                 <img class="profile-image" src="#" data-win-bind="src: user.profile_image_url_https" />
                 <span class="name" data-win-bind="textContent: user.name"></span>
@@ -30,7 +30,8 @@
     </div>
     <!-- retweeted status 用テンプレート -->
     <div class="twitter-retweeted-status-view-template" data-win-control="WinJS.Binding.Template">
-        <div class="status retweeted-status s-glassiness">
+        <div class="status retweeted-status s-glassiness"
+                data-win-bind="this['data-status-id']: retweeted_status.id_str WinJS.Binding.setAttribute; this['data-user-screen-name']: retweeted_status.user.screen_name WinJS.Binding.setAttribute">
             <div class="user-box">
                 <img class="profile-image" src="#" data-win-bind="src: retweeted_status.user.profile_image_url_https" />
                 <span class="name" data-win-bind="textContent: retweeted_status.user.name"></span>
@@ -58,6 +59,7 @@
                 </div>
             </div>
             <div class="tweet-form">
+                <div class="status-replied-to-container"></div>
                 <textarea></textarea>
                 <progress></progress>
                 <div class="error-message"></div>
@@ -66,6 +68,7 @@
             </div>
         </div>
         <div class="status-list"></div>
+        <div data-win-control="WinJS.UI.Menu" class="status-list-item-menu"></div>
     </section>
 </body>
 </html>
