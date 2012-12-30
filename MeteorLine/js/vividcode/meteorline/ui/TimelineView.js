@@ -88,6 +88,215 @@
         },
     });
 
+    var TimelineItemListView = WinJS.Class.define(function (element, options) {
+        /// <param name="options" value="{
+        ///     timelineItemList: new WinJS.Binding.List,
+        ///     statusTemplate: new WinJS.Binding.Template,
+        ///     retweetedStatusTemplate: new WinJS.Binding.Template
+        /// }">引数</param>
+        this.element = element;
+        this._statusTemplate = options.statusTemplate;
+        this._retweetedStatusTemplate = options.retweetedStatusTemplate;
+        this._cmdsForStatus = [];
+        this._hasReservationOfRefreshing = false;
+        this._keyElemMap = {};
+        this._refreshingProcessPromise = null;
+
+        this.__bindList(options.timelineItemList);
+        this.__setupEventListeners();
+    }, {
+        /// <field type="HTMLElement">Timeline の項目一覧を格納する要素</field>
+        element: null,
+        /// <field type="WinJS.Binding.List">Timeline の項目一覧を表すリスト</field>
+        _list: null,
+        /// <field type="WinJS.Binding.Template">通常の status を表す HTML 要素を構築するためのテンプレート</field>
+        _statusTemplate: null,
+        /// <field type="WinJS.Binding.Template">リツイートされた status を表す HTML 要素を構築するためのテンプレート</field>
+        _retweetedStatusTemplate: null,
+        /// <field type="Array">Status の追加や削除をまとめて処理するために, 追加や削除の情報をためておくための配列</field>
+        _cmdsForStatus: null,
+        /// <field type="Boolean">表示の更新が予約されているかどうか</field>
+        _hasReservationOfRefreshing: false,
+        /// <field>リストの key と status を表す HTML 要素の対応を表すマップ</field>
+        _keyElemMap: null,
+        /// <field type="WinJS.Promise">表示更新の処理を表す Promise オブジェクト</field>
+        _refreshingProcessPromise: null,
+
+        __setupEventListeners: function () {
+            var that = this;
+            function getStatusElemFromAncestors(e) {
+                // 指定の要素の先祖の中から Status を表す要素を返す. なければ null
+                while (e) {
+                    if (e.classList.contains("status")) break;
+                    e = e.parentElement;
+                }
+                return e;
+            }
+            // 項目がクリックされたときの処理
+            this.element.addEventListener("click", function (evt) {
+                var e = getStatusElemFromAncestors(evt.target);
+                if (e) {
+                    var key = e.getAttribute("data-item-key");
+                    that.dispatchEvent("itemclicked", { itemKey: key, itemElement: e });
+                }
+            }, false);
+            // ユーザーへの視覚的フィードバックのためのリスナ
+            this.element.addEventListener("MSPointerDown", function (evt) {
+                var e = getStatusElemFromAncestors(evt.target);
+                if (e) WinJS.UI.Animation.pointerDown(e);
+            }, false);
+            var pointeroutHandler = function (evt) {
+                var e = getStatusElemFromAncestors(evt.target);
+                if (e) WinJS.UI.Animation.pointerUp(e);
+            };
+            // 参考 : クイック スタート: ポインター (JavaScript と HTML を使った Windows ストア アプリ) (Windows) 
+            //        http://msdn.microsoft.com/ja-jp/library/windows/apps/hh465383.aspx
+            // 以下のすべてののイベントタイプにリスナを登録する必要があるかどうかはわからないが, 一応
+            this.element.addEventListener("MSPointerUp", pointeroutHandler, false);
+            this.element.addEventListener("MSPointerOut", pointeroutHandler, false);
+            this.element.addEventListener("MSPointerCancel", pointeroutHandler, false);
+            this.element.addEventListener("MSLostPointerCapture", pointeroutHandler, false);
+        },
+
+        __bindList: function (list) {
+            var that = this;
+            this._list = list;
+            list.addEventListener("iteminserted", function (evt) {
+                that.__addStatus(evt.detail);
+            }, false);
+            list.addEventListener("itemremoved", function (evt) {
+                that.__removeStatus(evt.detail);
+            }, false);
+        },
+
+        __addStatus: function (addedData) {
+            // addedData: { index: 10, key: "11", value: twitterStatus }
+            this._cmdsForStatus.push({ type: "add", key: addedData.key });
+            this.__makeReservationOfRefreshing();
+        },
+        __removeStatus: function (removedData) {
+            this._cmdsForStatus.push({ type: "remove", key: removedData.key });
+            this.__makeReservationOfRefreshing();
+        },
+
+        __makeReservationOfRefreshing: function () {
+            var that = this;
+            function timeout() {
+                // that._refreshingProcessPromise に then で繋げてもいいかも
+                WinJS.Promise.timeout(100).then(function () {
+                    if (that._refreshingProcessPromise) {
+                        timeout();
+                    } else {
+                        that._hasReservationOfRefreshing = false;
+                        that.__refresh();
+                    }
+                });
+            }
+            if (!this._hasReservationOfRefreshing) {
+                this._hasReservationOfRefreshing = true;
+                timeout();
+            }
+        },
+
+        __refresh: function () {
+            var that = this;
+
+            var cmdsForStatus = this._cmdsForStatus;
+            this._cmdsForStatus = [];
+
+            // 追加するものと削除するものを整理
+            // 追加と削除が同時に行われる可能性もあるので
+            var newlyAddedStatusKeysOrderedList = [];
+            var newlyAddedStatusKeys = {};
+            var removedStatusKeys = {};
+            cmdsForStatus.forEach(function (cmd) {
+                if (cmd.type === "add") {
+                    newlyAddedStatusKeys[cmd.key] = true;
+                    newlyAddedStatusKeysOrderedList.push(cmd.key);
+                } else if (cmd.type === "remove") {
+                    if (cmd.key in newlyAddedStatusKeys) {
+                        delete newlyAddedStatusKeys[cmd.key];
+                        // newlyAddedStatusKeysOrderedList からの除去は後で filter を使って行う
+                    } else {
+                        removedStatusKeys[cmd.key] = true;
+                    }
+                }
+            });
+            newlyAddedStatusKeysOrderedList = newlyAddedStatusKeysOrderedList.filter(function (key) {
+                return (key in newlyAddedStatusKeys);
+            });
+
+            // 先に削除
+            for (var key in removedStatusKeys) {
+                this.element.removeChild(this._keyElemMap[key]);
+                delete this._keyElemMap[key];
+            }
+
+            if (newlyAddedStatusKeysOrderedList.length === 0) return;
+
+            var newlyAddedStatusKeyElemMap = {};
+            (function () { // スコープ用
+                var statusTemplate = this._statusTemplate;
+                var retweetedStatusTemplate = this._retweetedStatusTemplate;
+                newlyAddedStatusKeysOrderedList.forEach(function (key) {
+                    var statusItem = that._list.getItemFromKey(key);
+                    var status = statusItem.data;
+                    var elemPromise;
+                    if (status.retweeted_status) {
+                        elemPromise = retweetedStatusTemplate.render(status);
+                    } else {
+                        elemPromise = statusTemplate.render(status);
+                    }
+                    newlyAddedStatusKeyElemMap[key] = elemPromise;
+                });
+            }).call(this);
+
+            var statusListElem = this.element;
+            // 最初に this._refreshingProcessPromise に代入しておかないと,
+            // イベントループで次に処理を渡す前に Promsie の終了処理まで行ってしまった
+            // 場合に this._refreshingProcessPromise が null であるということが起こり得るので
+            // 最初に代入しておく
+            this._refreshingProcessPromise = WinJS.Promise.as();
+            this._refreshingProcessPromise.then(function () {
+                return WinJS.Promise.join(newlyAddedStatusKeyElemMap);
+            }).
+            then(function (keMap) {
+                var appendedStatusElems = [];
+                var f = document.createDocumentFragment();
+                newlyAddedStatusKeysOrderedList.reverse().forEach(function (key) {
+                    var e = keMap[key];
+                    f.appendChild(e); // 先に追加した方が上にくる
+                    that._keyElemMap[key] = e;
+                    appendedStatusElems.push(e);
+                    // key を要素にもたせる
+                    e.querySelector(".status").setAttribute("data-item-key", key);
+                });
+                var affectedItems = Array.prototype.slice.call(statusListElem.querySelectorAll(".win-template"));
+                // Create addToList animation.
+                var addToList = WinJS.UI.Animation.createAddToListAnimation(appendedStatusElems, affectedItems);
+                // Insert new item into DOM tree.
+                // This causes the affected items to change position.
+                statusListElem.insertBefore(f, statusListElem.firstChild);
+                // Execute the animation.
+                return addToList.execute();
+            }).
+            then(null, function onError() { }). // 例外が出ても終了処理に行くように
+            then(function () {
+                // 終了処理
+                var p = that._refreshingProcessPromise;
+                that._refreshingProcessPromise = null;
+                p.done();
+            });
+        },
+    });
+    // Set up event handlers for the control
+    // 参考 http://blogs.msdn.com/b/windowsappdev_ja/archive/2012/10/16/javascript-windows-winjs.aspx
+    WinJS.Class.mix(
+        TimelineItemListView,
+        WinJS.Utilities.createEventProperties("itemclicked"),
+        WinJS.Utilities.eventMixin
+    );
+
     var TimelineView = WinJS.UI.Pages.define("/js/vividcode/meteorline/ui/TimelineView.html", {
         /// <field>アカウント情報</field>
         account: null,
@@ -102,10 +311,12 @@
         _maxNumItems: 100,
         /// <field type="TweetFormView">投稿用フォーム</field>
         _tweetForm: null,
-        /// <field type="HTMLElement">タイムラインの要素</field>
-        _statusListElem: null,
         /// <field type="WinJS.UI.Menu">タイムライン内の項目をクリックしたときに出てくるメニュー</field>
         _statusListItemMenu: null,
+        /// <field type="WinJS.Binding.List">タイムライン内の項目一覧</field>
+        _timelineItemList: null,
+        /// <field type="TimelineItemListView">タイムラインの項目一覧を表示するための view</field>
+        _timelineItemListView: null,
 
         init: function (element, options) {
             element.classList.add("timeline-view-component");
@@ -113,6 +324,7 @@
             if (options.initHide) this.hide();
 
             this._client = new vividcode.twitter.TwitterClient({ key: CONSUMER_KEY, secret: CONSUMER_SECRET }, this.account.tokenCreds);
+            this._timelineItemList = new WinJS.Binding.List();
         },
 
         processed: function (element, options) {
@@ -121,54 +333,48 @@
 
             var tweetFormElem = element.querySelector("section .tweet-form");
             this._tweetForm = new TweetFormView(tweetFormElem, { client: this._client });
-            this._statusListElem = this.element.querySelector(".status-list");
+
             this._statusListItemMenu = this.element.querySelector(".status-list-item-menu").winControl;
+
+            // Timeline の項目一覧の view を用意
+            var statusListElem = this.element.querySelector(".status-list");
+            var options = {
+                timelineItemList: this._timelineItemList,
+                statusTemplate: this.element.getElementsByClassName("twitter-status-view-template").item(0).winControl,
+                retweetedStatusTemplate: this.element.getElementsByClassName("twitter-retweeted-status-view-template").item(0).winControl
+            };
+            this._timelineItemListView = new TimelineItemListView(statusListElem, options);
         },
 
         ready: function (element, options) {
             var that = this;
 
-            function getStatusElemFromAncestors(e) {
-                // 指定の要素の先祖の中から Status を表す要素を返す. なければ null
-                while (e) {
-                    if (e.classList.contains("status")) break;
-                    e = e.parentElement;
+            this._timelineItemListView.addEventListener("itemclicked", function (evt) {
+                var key = evt.detail.itemKey;
+                var e = evt.detail.itemElement;
+                var status = that._timelineItemList.getItemFromKey(key).data;
+                // status の情報
+                var statusIdStr;
+                var screenName;
+                if (status.retweeted_status) { // RT の場合は元のツイートを返信先にする
+                    statusIdStr = status.retweeted_status.id_str;
+                    screenName = status.retweeted_status.user.screen_name;
+                } else {
+                    statusIdStr = status.id_str;
+                    screenName = status.user.screen_name;
                 }
-                return e;
-
-            }
-            this._statusListElem.addEventListener("click", function (evt) {
-                var e = getStatusElemFromAncestors(evt.target);
-                if (e) {
-                    var statusIdStr = e.getAttribute("data-status-id");
-                    var screenName = e.getAttribute("data-user-screen-name");
-                    var itemMenu = that._statusListItemMenu;
-                    var menuCommands = [
-                        new WinJS.UI.MenuCommand(void 0, {
-                            label: "返信", onclick: function (evt) {
-                                that._tweetForm.setReplyTo(statusIdStr, screenName, e);
-                            }
-                        })
-                    ];
-                    itemMenu.commands = menuCommands;
-                    itemMenu.show(e);
-                }
+                // menu 表示
+                var itemMenu = that._statusListItemMenu;
+                var menuCommands = [
+                    new WinJS.UI.MenuCommand(void 0, {
+                        label: "返信", onclick: function (evt) {
+                            that._tweetForm.setReplyTo(statusIdStr, screenName, e);
+                        }
+                    })
+                ];
+                itemMenu.commands = menuCommands;
+                itemMenu.show(e);
             }, false);
-            this._statusListElem.addEventListener("MSPointerDown", function (evt) {
-                var e = getStatusElemFromAncestors(evt.target);
-                if (e) WinJS.UI.Animation.pointerDown(e);
-            }, false);
-            var pointeroutHandler = function (evt) {
-                var e = getStatusElemFromAncestors(evt.target);
-                if (e) WinJS.UI.Animation.pointerUp(e);
-            };
-            // 参考 : クイック スタート: ポインター (JavaScript と HTML を使った Windows ストア アプリ) (Windows) 
-            //        http://msdn.microsoft.com/ja-jp/library/windows/apps/hh465383.aspx
-            // 以下のすべてののイベントタイプにリスナを登録する必要があるかどうかはわからないが, 一応
-            this._statusListElem.addEventListener("MSPointerUp", pointeroutHandler, false);
-            this._statusListElem.addEventListener("MSPointerOut", pointeroutHandler, false);
-            this._statusListElem.addEventListener("MSPointerCancel", pointeroutHandler, false);
-            this._statusListElem.addEventListener("MSLostPointerCapture", pointeroutHandler, false);
 
             this._client.onuserstreammessage = function (json) {
                 if (json.text) {
@@ -237,7 +443,7 @@
                         // ID が古い場合は何もしない
                         return;
                     }
-                    statuses.unshift(status);
+                    statuses.push(status);
                 });
                 that.__pushStatuses(statuses);
             }, function onError(err) {
@@ -245,58 +451,13 @@
             });
         },
         __pushStatus: function (status) {
-            this.__pushStatuses([status]);
+            if (this._timelineItemList.length >= this._maxNumItems) this._timelineItemList.shift();
+            this._idStrOfLastAddedStatus = status.id_str;
+            this._timelineItemList.push(status);
         },
-        __pushStatuses: function (statuses) { // statuses のインデックスの小さい方が新しいツイート
-            if (statuses.length === 0) return;
-
+        __pushStatuses: function (statuses) { // statuses のインデックスの大きい方が新しいツイート
             var that = this;
-
-            // statuses の個数が多すぎる場合は削除
-            while (statuses.length > that._maxNumItems) {
-                statuses.pop();
-            }
-
-            var statusTemplateElem = this.element.getElementsByClassName("twitter-status-view-template").item(0);
-            var retweetedStatusTemplateElem = this.element.getElementsByClassName("twitter-retweeted-status-view-template").item(0);
-            this._idStrOfLastAddedStatus = statuses[0].id_str;
-            //console.log(status.user.screen_name + ": " + status.text);
-            /// <var name="statusTemplate" type="WinJS.Binding.Template">ツイッターの status を表示する HTML 要素のテンプレート</var>
-            var statusTemplate = statusTemplateElem.winControl;//this.element.querySelector(".status-template").winControl;
-            var retweetedStatusTemplate = retweetedStatusTemplateElem.winControl;
-            var statusListElem = this._statusListElem;
-            var statusElemPromises = statuses.map(function (status) {
-                if (status.retweeted_status) {
-                    return retweetedStatusTemplate.render(status);
-                } else {
-                    return statusTemplate.render(status);
-                }
-            });
-            WinJS.Promise.join(statusElemPromises).done(function (statusElems) {
-                var affectedItems = statusListElem.querySelectorAll(".win-template");
-                var affectedItemArray = [];
-                for (var i = 0; i < affectedItems.length; ++i) {
-                    affectedItemArray.push(affectedItems.item(i));
-                }
-                var mni = that._maxNumItems - statuses.length;
-                while (affectedItemArray.length > mni) {
-                    statusListElem.removeChild(affectedItemArray.pop());
-                }
-
-                // Create addToList animation.
-                var addToList = WinJS.UI.Animation.createAddToListAnimation(statusElems, affectedItemArray);
-
-                var f = document.createDocumentFragment();
-                statusElems.forEach(function (statusElem) {
-                    f.appendChild(statusElem);
-                });
-                // Insert new item into DOM tree.
-                // This causes the affected items to change position.
-                statusListElem.insertBefore(f, statusListElem.firstChild);
-
-                // Execute the animation.
-                addToList.execute();
-            });
+            statuses.forEach(function (status) { that.__pushStatus(status) });
         },
 
         updateLayout: function (element, viewState, lastViewState) {
