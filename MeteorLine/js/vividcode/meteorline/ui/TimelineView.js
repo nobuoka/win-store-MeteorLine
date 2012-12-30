@@ -128,12 +128,17 @@
         ready: function (element, options) {
             var that = this;
 
-            this._statusListElem.addEventListener("click", function (evt) {
-                var e = evt.target;
+            function getStatusElemFromAncestors(e) {
+                // 指定の要素の先祖の中から Status を表す要素を返す. なければ null
                 while (e) {
                     if (e.classList.contains("status")) break;
                     e = e.parentElement;
                 }
+                return e;
+
+            }
+            this._statusListElem.addEventListener("click", function (evt) {
+                var e = getStatusElemFromAncestors(evt.target);
                 if (e) {
                     var statusIdStr = e.getAttribute("data-status-id");
                     var screenName = e.getAttribute("data-user-screen-name");
@@ -149,6 +154,21 @@
                     itemMenu.show(e);
                 }
             }, false);
+            this._statusListElem.addEventListener("MSPointerDown", function (evt) {
+                var e = getStatusElemFromAncestors(evt.target);
+                if (e) WinJS.UI.Animation.pointerDown(e);
+            }, false);
+            var pointeroutHandler = function (evt) {
+                var e = getStatusElemFromAncestors(evt.target);
+                if (e) WinJS.UI.Animation.pointerUp(e);
+            };
+            // 参考 : クイック スタート: ポインター (JavaScript と HTML を使った Windows ストア アプリ) (Windows) 
+            //        http://msdn.microsoft.com/ja-jp/library/windows/apps/hh465383.aspx
+            // 以下のすべてののイベントタイプにリスナを登録する必要があるかどうかはわからないが, 一応
+            this._statusListElem.addEventListener("MSPointerUp", pointeroutHandler, false);
+            this._statusListElem.addEventListener("MSPointerOut", pointeroutHandler, false);
+            this._statusListElem.addEventListener("MSPointerCancel", pointeroutHandler, false);
+            this._statusListElem.addEventListener("MSLostPointerCapture", pointeroutHandler, false);
 
             this._client.onuserstreammessage = function (json) {
                 if (json.text) {
