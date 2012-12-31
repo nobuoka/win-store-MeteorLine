@@ -83,186 +83,187 @@
             then(function (res) {
                 return 0; // 今回は特に返すものがないので
             });
-        }
-    });
+        },
 
-    TwitterClient.prototype.getHomeTimeline = function () {
-        /// <returns value='WinJS.Promise.wrap(new TemporaryCredentials())'>取得した OAuth の Request Token の情報</returns>
-        var that = this;
-        var consumerKeys = this._consumerKeys;
-        return WinJS.Promise.wrap().
-        then(function () {
-            // GET メソッドで接続する先の URL
-            var action = "https://api.twitter.com/1.1/statuses/home_timeline.json";
-            // 渡すパラメータ
-            var parameters = [
-              //["screen_name", "qYFABsKcT4mLbi2GzbwGQ"],
-              ["count", "200"],
-            ];
-            // consumer key などの設定
-            var accessor = {
-                consumerKey: consumerKeys.key,
-                consumerSecret: consumerKeys.secret,
-                token: that._creds.token,
-                tokenSecret: that._creds.secret
-            };
+        getHomeTimeline: function () {
+            /// <returns value='WinJS.Promise.wrap(new TemporaryCredentials())'>取得した OAuth の Request Token の情報</returns>
+            var that = this;
+            var consumerKeys = this._consumerKeys;
+            return WinJS.Promise.wrap().
+            then(function () {
+                // GET メソッドで接続する先の URL
+                var action = "https://api.twitter.com/1.1/statuses/home_timeline.json";
+                // 渡すパラメータ
+                var parameters = [
+                  //["screen_name", "qYFABsKcT4mLbi2GzbwGQ"],
+                  ["count", "200"],
+                ];
+                // consumer key などの設定
+                var accessor = {
+                    consumerKey: consumerKeys.key,
+                    consumerSecret: consumerKeys.secret,
+                    token: that._creds.token,
+                    tokenSecret: that._creds.secret
+                };
 
-            // メッセージオブジェクトの生成
-            var message = { method: "GET", action: action, parameters: parameters };
-            // パラメータを含む URL の取得
-            var uriStr = OAuth.addToURL(message.action, message.parameters);
-            // OAuth 認証のためのパラメータ等の補完 (パラメータを含む URL の取得の後にすること)
-            OAuth.completeRequest(message, accessor);
-            var realm = "";
-            return {
-                type: message.method,
-                url: uriStr,
-                headers: {
-                    "Authorization": OAuth.getAuthorizationHeader(realm, message.parameters)
-                }
-            };
-        }).
-        then(function (requestObj) {
-            console.dir(requestObj);
-            return WinJS.xhr(requestObj).
-            then(function (xhr) {
-                console.log("xhr success");
-                /*
-                    X-Rate-Limit-Limit: the rate limit ceiling for that given request
-                    X-Rate-Limit-Remaining: the number of requests left for the 15 minute window
-                    X-Rate-Limit-Reset: the remaining window before the rate limit resets in UTC epoch seconds
-                */
-                console.log("limit: " + xhr.getResponseHeader("X-Rate-Limit-Limit"));
-                console.log("remaining: " + xhr.getResponseHeader("X-Rate-Limit-Remaining"));
-                var resetEpochStr = xhr.getResponseHeader("X-Rate-Limit-Reset");
-                console.log("reset: " + resetEpochStr + " (" + (new Date(Number(resetEpochStr)*1000)) + ")");
-                return JSON.parse(xhr.responseText);
-            }, function onError(xhr) {
-                console.log("xhr error");
-                console.dir(xhr);
-                console.log(xhr.status);
-                console.log(xhr.responseText);
-                return WinJS.Promise.wrapError("XHR Error");
-            });
-        }).
-        then(function (timelineJsonObj) {
-            return timelineJsonObj;
-        });
-    };
-
-    TwitterClient.prototype.startUserStream = function () {
-        /// <returns value='WinJS.Promise.wrap(new TemporaryCredentials())'>取得した OAuth の Request Token の情報</returns>
-        var that = this;
-        var reader = null;
-        var promise = null;
-        var consumerKeys = this._consumerKeys;
-        promise = this._userStreamPromise = WinJS.Promise.wrap().
-        then(function () {
-            that.onuserstreamstart();
-            // GET メソッドで接続する先の URL
-            var action = "https://userstream.twitter.com/1.1/user.json";
-            // 渡すパラメータ
-            var parameters = [
-              //["screen_name", "qYFABsKcT4mLbi2GzbwGQ"],
-              //["since_id", "XXXXXX"],
-            ];
-            // consumer key などの設定
-            var accessor = {
-                consumerKey: consumerKeys.key,
-                consumerSecret: consumerKeys.secret,
-                token: that._creds.token,
-                tokenSecret: that._creds.secret
-            };
-
-            // メッセージオブジェクトの生成
-            var message = { method: "GET", action: action, parameters: parameters };
-            // パラメータを含む URL の取得
-            var uriStr = OAuth.addToURL(message.action, message.parameters);
-            // OAuth 認証のためのパラメータ等の補完 (パラメータを含む URL の取得の後にすること)
-            OAuth.completeRequest(message, accessor);
-            var realm = "";
-            return {
-                type: message.method,
-                url: uriStr,
-                responseType: "ms-stream",
-                headers: {
-                    "Authorization": OAuth.getAuthorizationHeader(realm, message.parameters)
-                }
-            };
-        }).
-        then(function (requestObj) {
-            console.dir(requestObj);
-            return WinJS.xhr(requestObj).
-            then(function (xhr) {
-                console.log("xhr success");
-                /*
-                    X-Rate-Limit-Limit: the rate limit ceiling for that given request
-                    X-Rate-Limit-Remaining: the number of requests left for the 15 minute window
-                    X-Rate-Limit-Reset: the remaining window before the rate limit resets in UTC epoch seconds
-                */
-                console.log("limit: " + xhr.getResponseHeader("X-Rate-Limit-Limit"));
-                console.log("remaining: " + xhr.getResponseHeader("X-Rate-Limit-Remaining"));
-                var resetEpochStr = xhr.getResponseHeader("X-Rate-Limit-Reset");
-                console.log("reset: " + resetEpochStr + " (" + (new Date(Number(resetEpochStr) * 1000)) + ")");
-                return JSON.parse(xhr.responseText);
-            }, function onError(xhrOrError) {
-                // cancel された場合もここに
-                if (xhrOrError instanceof Error) {
-                    console.log("error on xhr");
-                    console.dir(xhrOrError);
-                } else {
+                // メッセージオブジェクトの生成
+                var message = { method: "GET", action: action, parameters: parameters };
+                // パラメータを含む URL の取得
+                var uriStr = OAuth.addToURL(message.action, message.parameters);
+                // OAuth 認証のためのパラメータ等の補完 (パラメータを含む URL の取得の後にすること)
+                OAuth.completeRequest(message, accessor);
+                var realm = "";
+                return {
+                    type: message.method,
+                    url: uriStr,
+                    headers: {
+                        "Authorization": OAuth.getAuthorizationHeader(realm, message.parameters)
+                    }
+                };
+            }).
+            then(function (requestObj) {
+                console.dir(requestObj);
+                return WinJS.xhr(requestObj).
+                then(function (xhr) {
+                    console.log("xhr success");
+                    /*
+                        X-Rate-Limit-Limit: the rate limit ceiling for that given request
+                        X-Rate-Limit-Remaining: the number of requests left for the 15 minute window
+                        X-Rate-Limit-Reset: the remaining window before the rate limit resets in UTC epoch seconds
+                    */
+                    console.log("limit: " + xhr.getResponseHeader("X-Rate-Limit-Limit"));
+                    console.log("remaining: " + xhr.getResponseHeader("X-Rate-Limit-Remaining"));
+                    var resetEpochStr = xhr.getResponseHeader("X-Rate-Limit-Reset");
+                    console.log("reset: " + resetEpochStr + " (" + (new Date(Number(resetEpochStr)*1000)) + ")");
+                    return JSON.parse(xhr.responseText);
+                }, function onError(xhr) {
                     console.log("xhr error");
-                    var xhr = xhrOrError;
                     console.dir(xhr);
                     console.log(xhr.status);
                     console.log(xhr.responseText);
-                }
-                return WinJS.Promise.wrapError("XHR Error");
-            }, function onProgress(xhr) {
-                var req = xhr;
-                // streaming の読み込みを開始した時に以下の if 文の中に入る
-                if (req.readyState === req.LOADING) {
-                    console.log("prog");
-                    console.dir(req.response);
-                    // res は MSStream オブジェクト
-                    var res = req.response;
-                    // msDetachStream メソッドを呼び出すことで IInputStream オブジェクトを res から切り離して取り出す
-                    var stream = res.msDetachStream();
-                    console.log(stream);
-                    console.dir(req);
-                    for (var name in stream) {
-                        console.log("  name : " + name);
-                        console.dir(stream[name]);
-                    }
-
-                    var jsonConverter = new JsonConverter();
-                    jsonConverter.onmessage = function (json) { that.onuserstreammessage(json) };
-
-                    reader = new StreamReader(stream);
-                    reader.onmessage = function (msg) { jsonConverter.pushString(msg) };
-                    reader.start();
-                }
-                console.log("prog : " + req);
+                    return WinJS.Promise.wrapError("XHR Error");
+                });
+            }).
+            then(function (timelineJsonObj) {
+                return timelineJsonObj;
             });
-        }).
-        then(null, function () {}).
-        then(function () {
-            // 内部的にエラーが出たときか外部から終了させられたときにここにくる
-            if (promise === that._userStreamPromise) that._userStreamPromise = null;
-            if (reader) reader.stop();
-            console.log("twitter user stream is stopped");
-            that.onuserstreamstop();
-        });
-    };
-    TwitterClient.prototype.stopUserStream = function () {
-        if (this._userStreamPromise) this._userStreamPromise.cancel();
-    };
-    TwitterClient.prototype.isUserStreamWorking = function () {
-        return !!this._userStreamPromise;
-    };
-    TwitterClient.prototype.onuserstreammessage = function () { };
-    TwitterClient.prototype.onuserstreamstart = function () { };
-    TwitterClient.prototype.onuserstreamstop = function () { };
+        },
+
+        startUserStream: function () {
+            /// <returns value='WinJS.Promise.wrap(new TemporaryCredentials())'>取得した OAuth の Request Token の情報</returns>
+            var that = this;
+            var reader = null;
+            var promise = null;
+            var consumerKeys = this._consumerKeys;
+            promise = this._userStreamPromise = WinJS.Promise.wrap().
+            then(function () {
+                that.onuserstreamstart();
+                // GET メソッドで接続する先の URL
+                var action = "https://userstream.twitter.com/1.1/user.json";
+                // 渡すパラメータ
+                var parameters = [
+                  //["screen_name", "qYFABsKcT4mLbi2GzbwGQ"],
+                  //["since_id", "XXXXXX"],
+                ];
+                // consumer key などの設定
+                var accessor = {
+                    consumerKey: consumerKeys.key,
+                    consumerSecret: consumerKeys.secret,
+                    token: that._creds.token,
+                    tokenSecret: that._creds.secret
+                };
+
+                // メッセージオブジェクトの生成
+                var message = { method: "GET", action: action, parameters: parameters };
+                // パラメータを含む URL の取得
+                var uriStr = OAuth.addToURL(message.action, message.parameters);
+                // OAuth 認証のためのパラメータ等の補完 (パラメータを含む URL の取得の後にすること)
+                OAuth.completeRequest(message, accessor);
+                var realm = "";
+                return {
+                    type: message.method,
+                    url: uriStr,
+                    responseType: "ms-stream",
+                    headers: {
+                        "Authorization": OAuth.getAuthorizationHeader(realm, message.parameters)
+                    }
+                };
+            }).
+            then(function (requestObj) {
+                console.dir(requestObj);
+                return WinJS.xhr(requestObj).
+                then(function (xhr) {
+                    console.log("xhr success");
+                    /*
+                        X-Rate-Limit-Limit: the rate limit ceiling for that given request
+                        X-Rate-Limit-Remaining: the number of requests left for the 15 minute window
+                        X-Rate-Limit-Reset: the remaining window before the rate limit resets in UTC epoch seconds
+                    */
+                    console.log("limit: " + xhr.getResponseHeader("X-Rate-Limit-Limit"));
+                    console.log("remaining: " + xhr.getResponseHeader("X-Rate-Limit-Remaining"));
+                    var resetEpochStr = xhr.getResponseHeader("X-Rate-Limit-Reset");
+                    console.log("reset: " + resetEpochStr + " (" + (new Date(Number(resetEpochStr) * 1000)) + ")");
+                    return JSON.parse(xhr.responseText);
+                }, function onError(xhrOrError) {
+                    // cancel された場合もここに
+                    if (xhrOrError instanceof Error) {
+                        console.log("error on xhr");
+                        console.dir(xhrOrError);
+                    } else {
+                        console.log("xhr error");
+                        var xhr = xhrOrError;
+                        console.dir(xhr);
+                        console.log(xhr.status);
+                        console.log(xhr.responseText);
+                    }
+                    return WinJS.Promise.wrapError("XHR Error");
+                }, function onProgress(xhr) {
+                    var req = xhr;
+                    // streaming の読み込みを開始した時に以下の if 文の中に入る
+                    if (req.readyState === req.LOADING) {
+                        console.log("prog");
+                        console.dir(req.response);
+                        // res は MSStream オブジェクト
+                        var res = req.response;
+                        // msDetachStream メソッドを呼び出すことで IInputStream オブジェクトを res から切り離して取り出す
+                        var stream = res.msDetachStream();
+                        console.log(stream);
+                        console.dir(req);
+                        for (var name in stream) {
+                            console.log("  name : " + name);
+                            console.dir(stream[name]);
+                        }
+
+                        var jsonConverter = new JsonConverter();
+                        jsonConverter.onmessage = function (json) { that.onuserstreammessage(json) };
+
+                        reader = new StreamReader(stream);
+                        reader.onmessage = function (msg) { jsonConverter.pushString(msg) };
+                        reader.start();
+                    }
+                    console.log("prog : " + req);
+                });
+            }).
+            then(null, function () {}).
+            then(function () {
+                // 内部的にエラーが出たときか外部から終了させられたときにここにくる
+                if (promise === that._userStreamPromise) that._userStreamPromise = null;
+                if (reader) reader.stop();
+                console.log("twitter user stream is stopped");
+                that.onuserstreamstop();
+            });
+        },
+
+        stopUserStream: function () {
+            if (this._userStreamPromise) this._userStreamPromise.cancel();
+        },
+        isUserStreamWorking: function () {
+            return !!this._userStreamPromise;
+        },
+        onuserstreammessage: function () { },
+        onuserstreamstart: function () { },
+        onuserstreamstop: function () { },
+    });
 
     WinJS.Namespace.define("vividcode.twitter", {
         TwitterClient: TwitterClient
