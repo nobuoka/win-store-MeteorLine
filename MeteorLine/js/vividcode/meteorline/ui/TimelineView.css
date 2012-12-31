@@ -109,10 +109,32 @@
 }
 .timeline-view-component .timeline-item-flyout.win-flyout .timeline-item-cmds {
     margin: 8px;
+    display: -ms-grid;
+    -ms-grid-columns: 1fr 2px 1fr 2px 1fr;
 }
-.timeline-view-component .timeline-item-cmd:not(.stat-completed) .completed {
-    display: none;
+.timeline-view-component .timeline-item-flyout.win-flyout .timeline-item-cmds .timeline-item-cmd-set-reply-to {
+    -ms-grid-column: 1;
 }
-.timeline-view-component .timeline-item-cmd.stat-completed .before-request {
-    display: none;
+.timeline-view-component .timeline-item-flyout.win-flyout .timeline-item-cmds .timeline-item-cmd-req-fav {
+    -ms-grid-column: 3;
+}
+.timeline-view-component .timeline-item-flyout.win-flyout .timeline-item-cmds .timeline-item-cmd-req-rt {
+    -ms-grid-column: 5;
+}
+.timeline-view-component .timeline-item-flyout.win-flyout .timeline-item-cmds .timeline-item-cmd {
+    -ms-grid-column-align: center;
+    -ms-grid-row-align: center;
+    display: -ms-grid;
+}
+.timeline-view-component .timeline-item-flyout.win-flyout .timeline-item-cmds .timeline-item-cmd > * { /* グリッド内の中央に配置 */
+    -ms-grid-column-align: center;
+    -ms-grid-row-align: center;
+}
+.timeline-view-component .timeline-item-cmd:not(.stat-completed) .completed,
+.timeline-view-component .timeline-item-cmd:not(.stat-progress) .progress {
+    visibility: hidden;
+}
+.timeline-view-component .timeline-item-cmd.stat-completed .before-request,
+.timeline-view-component .timeline-item-cmd.stat-progress .before-request {
+    visibility: hidden;
 }

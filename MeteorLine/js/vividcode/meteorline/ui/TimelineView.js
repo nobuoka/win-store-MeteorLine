@@ -377,12 +377,47 @@
                     while (c.firstChild) c.removeChild(c.firstChild);
                     var e = evt.detail.itemElement.cloneNode(true);
                     c.appendChild(e);
-
+                    // reply
                     flyoutElem.querySelector(".cmd-set-reply-to-button").addEventListener("click", function (evt) {
                         that._tweetForm.setReplyTo(statusIdStr, screenName, e);
                         evt.currentTarget.parentNode.classList.add("stat-completed");
                     }, false);
-
+                    // Fav
+                    var favCmdElem = flyoutElem.querySelector(".timeline-item-cmd-req-fav");
+                    var favButton = flyoutElem.querySelector(".cmd-req-fav-button");
+                    favButton.addEventListener("click", function (evt) {
+                        favCmdElem.classList.add("stat-progress");
+                        that._client.postFavorite(statusIdStr).then(function () {
+                            // 正常に完了
+                            favCmdElem.classList.add("stat-completed");
+                        }, function onError(err) {
+                            // 今のところはエラーメッセージは表示しない
+                            console.dir(err);
+                        }).then(function () {
+                            favCmdElem.classList.remove("stat-progress");
+                        });
+                    }, false);
+                    // RT
+                    var rtCmdElem = flyoutElem.querySelector(".timeline-item-cmd-req-rt");
+                    var rtButton = flyoutElem.querySelector(".cmd-req-rt-button");
+                    if (status.user.protected || status.user.id_str === that.account.id) {
+                        // protected の場合と自分自身の場合は RT できない
+                        rtButton.disabled = true;
+                    } else {
+                        rtButton.addEventListener("click", function (evt) {
+                            rtCmdElem.classList.add("stat-progress");
+                            that._client.postRetweet(statusIdStr).then(function () {
+                                // 正常に完了
+                                rtCmdElem.classList.add("stat-completed");
+                            }, function onError(err) {
+                                // 今のところはエラーメッセージは表示しない
+                                console.dir(err);
+                            }).then(function () {
+                                rtCmdElem.classList.remove("stat-progress");
+                            });
+                        }, false);
+                    }
+                    // 削除処理
                     flyout.addEventListener("afterhide", function onafterhide(evt) {
                         flyout.removeEventListener("afterhide", onafterhide, false);
                         flyoutElem.removeChild(elem);

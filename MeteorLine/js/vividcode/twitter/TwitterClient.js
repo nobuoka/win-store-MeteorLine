@@ -89,6 +89,41 @@
             });
         },
 
+        postRetweet: function (statusId) {
+            /// <param name="statusId" type="String">Retweet 対象の status の ID/param>
+
+            var method = "POST";
+            var action = "https://api.twitter.com/1.1/statuses/retweet/" + encodeURIComponent(statusId) + ".json";
+            var parameters = [
+                ["trim_user", "true"], // user 情報を含めないようにすることで通信量を減らす
+            ];
+
+            // 既に RT 済みだった場合は 403 エラー (ここでは特に対応していない)
+            // response : {"errors":"sharing is not permissible for this status (Share validations failed)"}
+
+            return this.__requestViaApi(method, action, parameters).then(function (res) {
+                return 0; // 今回は特に返すものがないので
+            });
+        },
+
+        postFavorite: function (statusId) {
+            /// <param name="statusId" type="String">Retweet 対象の status の ID/param>
+
+            var method = "POST";
+            var action = "https://api.twitter.com/1.1/favorites/create.json";
+            var parameters = [
+                ["id", statusId],
+                ["trim_user", "true"], // user 情報を含めないようにすることで通信量を減らす
+            ];
+
+            // 既に Fav 済みだった場合は 403 エラー (ここでは特に対応していない)
+            // response : {"errors":[{"code":139,"message":"You have already favorited this status"}]}
+
+            return this.__requestViaApi(method, action, parameters).then(function (res) {
+                return 0; // 今回は特に返すものがないので
+            });
+        },
+
         getHomeTimeline: function () {
             var method = "GET";
             var action = "https://api.twitter.com/1.1/statuses/home_timeline.json";
