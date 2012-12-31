@@ -8,21 +8,13 @@
         this._creds = creds;
         this._consumerKeys = consumerKeys;
     }, {
-        postStatus: function (status, opts) {
-            /// <param name="opts" value="{ in_reply_to_status_id: '' }">オプション</param>
-            /// <returns value='WinJS.Promise.wrap(new TemporaryCredentials())'>取得した OAuth の Request Token の情報</returns>
+        __requestViaApi: function (method, action, parameters) {
+            /// <summary>Twitter API に対してリクエストを投げる</summary>
+
             var that = this;
             var consumerKeys = this._consumerKeys;
             return WinJS.Promise.wrap().
             then(function () {
-                var method = "POST";
-                // POST メソッドで接続する先の URL
-                var action = "https://api.twitter.com/1.1/statuses/update.json";
-                // 渡すパラメータ
-                var parameters = [
-                    ["status", status],
-                ];
-                if (opts.in_reply_to_status_id) parameters.push(["in_reply_to_status_id", opts.in_reply_to_status_id]);
                 // consumer key などの設定
                 var accessor = {
                     consumerKey: consumerKeys.key,
@@ -79,72 +71,32 @@
                         return WinJS.Promise.wrapError(new Error("予期せぬエラーが発生"));
                     }
                 });
-            }).
-            then(function (res) {
+            });
+        },
+
+        postStatus: function (status, opts) {
+            /// <param name="opts" value="{ in_reply_to_status_id: '' }">オプション</param>
+
+            var method = "POST";
+            var action = "https://api.twitter.com/1.1/statuses/update.json";
+            var parameters = [
+                ["status", status],
+            ];
+            if (opts.in_reply_to_status_id) parameters.push(["in_reply_to_status_id", opts.in_reply_to_status_id]);
+
+            return this.__requestViaApi(method, action, parameters).then(function (res) {
                 return 0; // 今回は特に返すものがないので
             });
         },
 
         getHomeTimeline: function () {
-            /// <returns value='WinJS.Promise.wrap(new TemporaryCredentials())'>取得した OAuth の Request Token の情報</returns>
-            var that = this;
-            var consumerKeys = this._consumerKeys;
-            return WinJS.Promise.wrap().
-            then(function () {
-                // GET メソッドで接続する先の URL
-                var action = "https://api.twitter.com/1.1/statuses/home_timeline.json";
-                // 渡すパラメータ
-                var parameters = [
-                  //["screen_name", "qYFABsKcT4mLbi2GzbwGQ"],
+            var method = "GET";
+            var action = "https://api.twitter.com/1.1/statuses/home_timeline.json";
+            var parameters = [
                   ["count", "200"],
-                ];
-                // consumer key などの設定
-                var accessor = {
-                    consumerKey: consumerKeys.key,
-                    consumerSecret: consumerKeys.secret,
-                    token: that._creds.token,
-                    tokenSecret: that._creds.secret
-                };
+            ];
 
-                // メッセージオブジェクトの生成
-                var message = { method: "GET", action: action, parameters: parameters };
-                // パラメータを含む URL の取得
-                var uriStr = OAuth.addToURL(message.action, message.parameters);
-                // OAuth 認証のためのパラメータ等の補完 (パラメータを含む URL の取得の後にすること)
-                OAuth.completeRequest(message, accessor);
-                var realm = "";
-                return {
-                    type: message.method,
-                    url: uriStr,
-                    headers: {
-                        "Authorization": OAuth.getAuthorizationHeader(realm, message.parameters)
-                    }
-                };
-            }).
-            then(function (requestObj) {
-                console.dir(requestObj);
-                return WinJS.xhr(requestObj).
-                then(function (xhr) {
-                    console.log("xhr success");
-                    /*
-                        X-Rate-Limit-Limit: the rate limit ceiling for that given request
-                        X-Rate-Limit-Remaining: the number of requests left for the 15 minute window
-                        X-Rate-Limit-Reset: the remaining window before the rate limit resets in UTC epoch seconds
-                    */
-                    console.log("limit: " + xhr.getResponseHeader("X-Rate-Limit-Limit"));
-                    console.log("remaining: " + xhr.getResponseHeader("X-Rate-Limit-Remaining"));
-                    var resetEpochStr = xhr.getResponseHeader("X-Rate-Limit-Reset");
-                    console.log("reset: " + resetEpochStr + " (" + (new Date(Number(resetEpochStr)*1000)) + ")");
-                    return JSON.parse(xhr.responseText);
-                }, function onError(xhr) {
-                    console.log("xhr error");
-                    console.dir(xhr);
-                    console.log(xhr.status);
-                    console.log(xhr.responseText);
-                    return WinJS.Promise.wrapError("XHR Error");
-                });
-            }).
-            then(function (timelineJsonObj) {
+            return this.__requestViaApi(method, action, parameters).then(function (timelineJsonObj) {
                 return timelineJsonObj;
             });
         },
@@ -162,7 +114,6 @@
                 var action = "https://userstream.twitter.com/1.1/user.json";
                 // 渡すパラメータ
                 var parameters = [
-                  //["screen_name", "qYFABsKcT4mLbi2GzbwGQ"],
                   //["since_id", "XXXXXX"],
                 ];
                 // consumer key などの設定
@@ -268,7 +219,6 @@
     WinJS.Namespace.define("vividcode.twitter", {
         TwitterClient: TwitterClient
     });
-
 
 
     /**
