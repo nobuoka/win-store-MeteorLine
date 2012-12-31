@@ -99,3 +99,20 @@
 .timeline-view-component .tweet-form:not(.reply) .status-replied-to-box {
     display: none;
 }
+
+/* status の詳細情報 */
+.timeline-view-component .timeline-item-flyout.win-flyout {
+    padding: 0;
+}
+.timeline-view-component .timeline-item-flyout.win-flyout .target-item-container {
+    max-width: 300px;
+}
+.timeline-view-component .timeline-item-flyout.win-flyout .timeline-item-cmds {
+    margin: 8px;
+}
+.timeline-view-component .timeline-item-cmd:not(.stat-completed) .completed {
+    display: none;
+}
+.timeline-view-component .timeline-item-cmd.stat-completed .before-request {
+    display: none;
+}

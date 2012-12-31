@@ -43,6 +43,17 @@
             </div>
         </div>
     </div>
+    <!-- timeline 上の項目をクリックしたときに表示する flyout -->
+    <div class="timeline-item-flyout" data-win-control="WinJS.UI.Flyout"></div>
+    <div class="timeline-item-flyout-content-template" data-win-control="WinJS.Binding.Template">
+        <div class="target-item-container"></div>
+        <div class="timeline-item-cmds">
+            <div class="timeline-item-cmd">
+                <button class="before-request cmd-set-reply-to-button">返信先に設定</button>
+                <span class="completed">返信先に設定済み</span>
+            </div>
+        </div>
+    </div>
 
     <section>
         <div class="timeline-view-header s-glassiness">
@@ -71,7 +82,6 @@
             </div>
         </div>
         <div class="status-list"></div>
-        <div data-win-control="WinJS.UI.Menu" class="status-list-item-menu"></div>
     </section>
 </body>
 </html>

@@ -298,6 +298,8 @@
     );
 
     var TimelineView = WinJS.UI.Pages.define("/js/vividcode/meteorline/ui/TimelineView.html", {
+        /// <field type="HTMLElement">この PageControl をホストする HTML 要素</field>
+        element: null, // IntelliSense のために宣言しているだけ; 値の設定は PageControl のコンストラクタで行われる
         /// <field>アカウント情報</field>
         account: null,
 
@@ -311,8 +313,6 @@
         _maxNumItems: 100,
         /// <field type="TweetFormView">投稿用フォーム</field>
         _tweetForm: null,
-        /// <field type="WinJS.UI.Menu">タイムライン内の項目をクリックしたときに出てくるメニュー</field>
-        _statusListItemMenu: null,
         /// <field type="WinJS.Binding.List">タイムライン内の項目一覧</field>
         _timelineItemList: null,
         /// <field type="TimelineItemListView">タイムラインの項目一覧を表示するための view</field>
@@ -334,8 +334,6 @@
             var tweetFormElem = element.querySelector("section .tweet-form");
             this._tweetForm = new TweetFormView(tweetFormElem, { client: this._client });
 
-            this._statusListItemMenu = this.element.querySelector(".status-list-item-menu").winControl;
-
             // Timeline の項目一覧の view を用意
             var statusListElem = this.element.querySelector(".status-list");
             var options = {
@@ -352,7 +350,9 @@
             this._timelineItemListView.addEventListener("itemclicked", function (evt) {
                 var key = evt.detail.itemKey;
                 var e = evt.detail.itemElement;
-                var status = that._timelineItemList.getItemFromKey(key).data;
+                var statusItem = that._timelineItemList.getItemFromKey(key);
+                if (!statusItem) return; // 指定の key がない場合 (取り除かれた後で表示が変わる前にクリック) は何もしない
+                var status = statusItem.data;
                 // status の情報
                 var statusIdStr;
                 var screenName;
@@ -363,17 +363,32 @@
                     statusIdStr = status.id_str;
                     screenName = status.user.screen_name;
                 }
-                // menu 表示
-                var itemMenu = that._statusListItemMenu;
-                var menuCommands = [
-                    new WinJS.UI.MenuCommand(void 0, {
-                        label: "返信", onclick: function (evt) {
-                            that._tweetForm.setReplyTo(statusIdStr, screenName, e);
-                        }
-                    })
-                ];
-                itemMenu.commands = menuCommands;
-                itemMenu.show(e);
+
+                var flyoutElem = that.element.querySelector(".timeline-item-flyout");
+                /// <var type="WinJS.UI.Flyout">timeline の各項目に対する flyout</var>
+                var flyout = flyoutElem.winControl;
+                /// <var type="WinJS.Binding.Template">flyout の中身のテンプレート</var>
+                var flyoutContentTemplate = that.element.querySelector(".timeline-item-flyout-content-template").winControl;
+
+                flyoutContentTemplate.render().then(function (elem) {
+                    // ツイート追加
+                    flyoutElem.appendChild(elem);
+                    var c = flyoutElem.querySelector(".target-item-container");
+                    while (c.firstChild) c.removeChild(c.firstChild);
+                    var e = evt.detail.itemElement.cloneNode(true);
+                    c.appendChild(e);
+
+                    flyoutElem.querySelector(".cmd-set-reply-to-button").addEventListener("click", function (evt) {
+                        that._tweetForm.setReplyTo(statusIdStr, screenName, e);
+                        evt.currentTarget.parentNode.classList.add("stat-completed");
+                    }, false);
+
+                    flyout.addEventListener("afterhide", function onafterhide(evt) {
+                        flyout.removeEventListener("afterhide", onafterhide, false);
+                        flyoutElem.removeChild(elem);
+                    }, false);
+                    flyout.show(evt.detail.itemElement, "top");
+                });
             }, false);
 
             this._client.onuserstreammessage = function (json) {
