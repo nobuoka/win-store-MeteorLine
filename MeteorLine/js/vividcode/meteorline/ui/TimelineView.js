@@ -326,11 +326,14 @@
         },
         startFavoritedManagementOrIncreaseAndUpdate: function (statusId, favorited) {
             /// <summary>指定の status を Fav したかどうかの管理を開始する; 既に管理開始している場合は更新</summary>
+            // favorited が undefined ならば上書きしない (初めてなら false にする)
+            // User Streaming API から取得したツイート情報の retweeted_status.favorited は役に
+            // 立たなくてプロパティが削除されている可能性があるので, そこら辺の絡みでこの機能がある
             if (this._favoritedInfo[statusId]) {
                 this._favoritedInfo[statusId].referenceCount++;
-                this.changeFavoritedStatus(statusId, favorited);
+                if (typeof favorited !== "undefined") this.changeFavoritedStatus(statusId, favorited);
             } else {
-                this._favoritedInfo[statusId] = { referenceCount: 1, favorited: favorited };
+                this._favoritedInfo[statusId] = { referenceCount: 1, favorited: !!favorited };
             }
         },
         increaseFavoritedManagementCount: function (statusId) {
@@ -393,11 +396,14 @@
         },
         startRetweetedManagementOrIncreaseAndUpdate: function (statusId, retweeted) {
             /// <summary>指定の status を RT したかどうかの管理を開始する; 既に管理開始している場合は更新</summary>
+            // retweeted が undefined ならば上書きしない (初めてなら false にする)
+            // User Streaming API から取得したツイート情報の retweeted_status.retweeted は役に
+            // 立たなくてプロパティが削除されている可能性があるので, そこら辺の絡みでこの機能がある
             if (this._retweetedInfo[statusId]) {
                 this._retweetedInfo[statusId].referenceCount++;
-                this.changeRetweetedStatus(statusId, retweeted);
+                if (typeof retweeted !== "undefined") this.changeRetweetedStatus(statusId, retweeted);
             } else {
-                this._retweetedInfo[statusId] = { referenceCount: 1, retweeted: retweeted };
+                this._retweetedInfo[statusId] = { referenceCount: 1, retweeted: !!retweeted };
             }
         },
         increaseRetweetedManagementCount: function (statusId) {
@@ -609,6 +615,14 @@
 
             this._client.onuserstreammessage = function (json) {
                 if (json.text) {
+                    if (json.retweeted_status) {
+                        // User Stream API から得た status object の retweeted_status.favorited と
+                        // retweeted_status.retweeted は役に立たない (自分に対してでなく retweet した人
+                        // に対する情報になっている) ので削除してしまう (Twitter のバグっぽい)
+                        // 参考 : https://dev.twitter.com/issues/783
+                        delete json.retweeted_status.favorited;
+                        delete json.retweeted_status.retweeted;
+                    }
                     that.__pushStatus(json);
                 } else {
                     console.dir(json);
