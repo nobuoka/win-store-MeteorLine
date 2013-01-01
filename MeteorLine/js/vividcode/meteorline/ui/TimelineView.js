@@ -297,6 +297,73 @@
         WinJS.Utilities.eventMixin
     );
 
+    var FavoriteManager = WinJS.Class.define(function (statusList) {
+        /// <field>{ 2000(statusId): { referenceCound: 1, favorited: false }, ... } 形式のオブジェクト</field>
+        this._favoritedInfo = {};
+        /// <field type="WinJS.Binding.List">Twitter Status のリスト</param>
+        this._list = statusList;
+
+        this.__bindStatusList();
+    }, {
+        __bindStatusList: function () {
+            var that = this;
+            this._list.addEventListener("iteminserted", function (evt) {
+                var status = evt.detail.value;
+                that.startFavoritedManagementOrIncreaseAndUpdate(status.id_str, status.favorited);
+                if (status.retweeted_status) {
+                    status = status.retweeted_status;
+                    that.startFavoritedManagementOrIncreaseAndUpdate(status.id_str, status.favorited);
+                }
+            }, false);
+            this._list.addEventListener("itemremoved", function (evt) {
+                var status = evt.detail.value;
+                that.decreaseFavoritedManagementCount(status.id_str);
+                if (status.retweeted_status) {
+                    status = status.retweeted_status;
+                    that.decreaseFavoritedManagementCount(status.id_str);
+                }
+            }, false);
+        },
+        startFavoritedManagementOrIncreaseAndUpdate: function (statusId, favorited) {
+            /// <summary>指定の status を Fav したかどうかの管理を開始する; 既に管理開始している場合は更新</summary>
+            if (this._favoritedInfo[statusId]) {
+                this._favoritedInfo[statusId].referenceCount++;
+                this.changeFavoritedStatus(statusId, favorited);
+            } else {
+                this._favoritedInfo[statusId] = { referenceCount: 1, favorited: favorited };
+            }
+        },
+        increaseFavoritedManagementCount: function (statusId) {
+            /// <summary>指定の status の参照カウントを増やす</summary>
+            this._favoritedInfo[statusId].referenceCount++;
+        },
+        decreaseFavoritedManagementCount: function (statusId) {
+            /// <summary>指定の status の参照カウントを減らす; 0 になったら除去する</summary>
+            this._favoritedInfo[statusId].referenceCount--;
+            if (this._favoritedInfo[statusId].referenceCount === 0) {
+                delete this._favoritedInfo[statusId];
+            }
+        },
+        changeFavoritedStatus: function (statusId, favorited) {
+            /// <summary>指定の status を Fav したかどうかの状態を変更する</summary>
+            // 同じなら何もしない
+            if (this._favoritedInfo[statusId].favorited === favorited) return;
+            this._favoritedInfo[statusId].favorited = favorited;
+            this.dispatchEvent("favoritedchange", { statusId: statusId, favorited: favorited });
+        },
+        getFavoritedStatus: function (statusId) {
+            /// <summary>指定の status を Fav したかどうかの情報を取得する</summary>
+            return this._favoritedInfo[statusId].favorited;
+        },
+    });
+    // Set up event handlers for the control
+    // 参考 http://blogs.msdn.com/b/windowsappdev_ja/archive/2012/10/16/javascript-windows-winjs.aspx
+    WinJS.Class.mix(
+        FavoriteManager,
+        WinJS.Utilities.createEventProperties("favoritedchanged"),
+        WinJS.Utilities.eventMixin
+    );
+
     var TimelineView = WinJS.UI.Pages.define("/js/vividcode/meteorline/ui/TimelineView.html", {
         /// <field type="HTMLElement">この PageControl をホストする HTML 要素</field>
         element: null, // IntelliSense のために宣言しているだけ; 値の設定は PageControl のコンストラクタで行われる
@@ -317,6 +384,8 @@
         _timelineItemList: null,
         /// <field type="TimelineItemListView">タイムラインの項目一覧を表示するための view</field>
         _timelineItemListView: null,
+        /// <field type="FavoriteManager">Fav の管理</field>
+        _favoriteManager: null,
 
         init: function (element, options) {
             element.classList.add("timeline-view-component");
@@ -325,6 +394,7 @@
 
             this._client = new vividcode.twitter.TwitterClient({ key: CONSUMER_KEY, secret: CONSUMER_SECRET }, this.account.tokenCreds);
             this._timelineItemList = new WinJS.Binding.List();
+            this._favoriteManager = new FavoriteManager(this._timelineItemList);
         },
 
         processed: function (element, options) {
@@ -384,19 +454,39 @@
                     }, false);
                     // Fav
                     var favCmdElem = flyoutElem.querySelector(".timeline-item-cmd-req-fav");
-                    var favButton = flyoutElem.querySelector(".cmd-req-fav-button");
-                    favButton.addEventListener("click", function (evt) {
-                        favCmdElem.classList.add("stat-progress");
-                        that._client.postFavorite(statusIdStr).then(function () {
-                            // 正常に完了
-                            favCmdElem.classList.add("stat-completed");
-                        }, function onError(err) {
-                            // 今のところはエラーメッセージは表示しない
-                            console.dir(err);
-                        }).then(function () {
-                            favCmdElem.classList.remove("stat-progress");
-                        });
-                    }, false);
+                    if (that._favoriteManager.getFavoritedStatus(statusIdStr)) {
+                        favCmdElem.classList.add("stat-completed");
+                    } else {
+                        var favButton = flyoutElem.querySelector(".cmd-req-fav-button");
+                        favButton.addEventListener("click", function (evt) {
+                            favCmdElem.classList.add("stat-progress");
+                            that._client.postFavorite(statusIdStr).then(function () {
+                                that._favoriteManager.changeFavoritedStatus(statusIdStr, true);
+                                // 正常に完了した場合の状態変更は FavoriteManager からのイベントに任せる
+                            }, function onError(err) {
+                                // 今のところはエラーメッセージは表示しない
+                                console.dir(err);
+                            }).then(function () {
+                                favCmdElem.classList.remove("stat-progress");
+                            });
+                        }, false);
+                        // イベントハンドラの追加と削除
+                        var favchangeHandler = function (evt) {
+                            if (evt.detail.statusId === statusIdStr) {
+                                if (evt.detail.favorited) {
+                                    favCmdElem.classList.add("stat-completed");
+                                }
+                            }
+                        };
+                        that._favoriteManager.increaseFavoritedManagementCount(statusIdStr);
+                        that._favoriteManager.addEventListener("favoritedchange", favchangeHandler, false);
+                        flyout.addEventListener("afterhide", function onafterhide(evt) {
+                            flyout.removeEventListener("afterhide", onafterhide, false);
+                                // 自分自身の remove : これをしないと flyout を表示するごとに登録されたリスナが増えていくので
+                            that._favoriteManager.removeEventListener("favoritedchange", favchangeHandler, false);
+                            that._favoriteManager.decreaseFavoritedManagementCount(statusIdStr);
+                        }, false);
+                    }
                     // RT
                     var rtCmdElem = flyoutElem.querySelector(".timeline-item-cmd-req-rt");
                     var rtButton = flyoutElem.querySelector(".cmd-req-rt-button");
@@ -420,6 +510,7 @@
                     // 削除処理
                     flyout.addEventListener("afterhide", function onafterhide(evt) {
                         flyout.removeEventListener("afterhide", onafterhide, false);
+                            // 自分自身の remove : これをしないと flyout を表示するごとに登録されたリスナが増えていくので
                         flyoutElem.removeChild(elem);
                     }, false);
                     flyout.show(evt.detail.itemElement, "top");
