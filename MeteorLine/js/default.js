@@ -75,15 +75,16 @@
 
     // アプリ設定に関して - 参考 : http://vividcode.hatenablog.com/entry/winrt/app-settings-js
     app.addEventListener("settings", function (evt) {
-        evt.detail.applicationcommands = {
-            // プロパティ名は SettingsFlyout コントロールの ID (settingsCommandId)
-            // title は設定ウィンドウの項目に表示される
-            // href はその SettingsFlyout コントロールが定義されている HTML ファイル
-            privacyPolicy: { title: "プライバシーポリシー", href: "/pages/setting/privacyPolicy.html" },
-            appSetting: { title: "アプリの設定", href: "/pages/setting/appSetting.html" },
-            //name: { title: ..., href: ... },
-            // ...
-        };
+        var cmds = evt.detail.e.request.applicationCommands;
+        cmds.append(new Windows.UI.ApplicationSettings.SettingsCommand("privacyPolicy", "プライバシーポリシー (web)", function (cmd) {
+            var uriToLaunch = "http://www.vividcode.info/project/meteorline/privacypolicy.txt";
+            var uri = new Windows.Foundation.Uri(uriToLaunch);
+            Windows.System.Launcher.launchUriAsync(uri);
+        }));
+        cmds.append(new Windows.UI.ApplicationSettings.SettingsCommand("appSetting", "アプリの設定", function (cmd) {
+            WinJS.UI.SettingsFlyout.showSettings("appSetting", "/pages/setting/appSetting.html");
+        }));
+
         WinJS.UI.SettingsFlyout.populateSettings(evt);
     });
 

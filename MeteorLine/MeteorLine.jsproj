@@ -89,9 +89,6 @@
     <Content Include="pages\setting\appSetting.css" />
     <Content Include="pages\setting\appSetting.html" />
     <Content Include="pages\setting\appSetting.js" />
-    <Content Include="pages\setting\privacyPolicy.css" />
-    <Content Include="pages\setting\privacyPolicy.html" />
-    <Content Include="pages\setting\privacyPolicy.js" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.WinJS.1.0, Version=1.0" />
