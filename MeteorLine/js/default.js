@@ -87,5 +87,10 @@
         WinJS.UI.SettingsFlyout.populateSettings(evt);
     });
 
+    app.addEventListener("loaded", function (evt) {
+        WinJS.Resources.processAll();
+        WinJS.Resources.addEventListener("contextchanged", function (evt) { WinJS.Resources.processAll() }, false);
+    });
+
     app.start();
 })();

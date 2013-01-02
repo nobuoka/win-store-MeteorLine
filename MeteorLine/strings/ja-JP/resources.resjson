@@ -1,0 +1,18 @@
+﻿// Windows アプリケーションのローカライズの詳細については、次を参照してください: http://go.microsoft.com/fwlink/?LinkId=212836
+
+{
+    "appSettingTitle" : "アプリの設定"
+   ,"backgroundSetting_100_title" : "背景画像"
+   ,"backgroundSetting_101_description1" : "このアプリの背景画像を設定できます。"
+   ,"backgroundSetting_102_description2" : "背景画像は、アプリ全体を覆うように縦横比を保ったまま拡大縮小されます。"
+   ,"backgroundSetting_111_setupButtonDesc" : "背景画像を設定"
+   ,"backgroundSetting_112_removeButtonDesc" : "背景画像を削除"
+   ,"backgroundSetting_121_verticalAlignDesc" : "縦方向位置揃え"
+   ,"backgroundSetting_122_verticalAlignTop" : "上端"
+   ,"backgroundSetting_123_verticalAlignCenter" : "中央"
+   ,"backgroundSetting_124_verticalAlignBottom" : "下端"
+   ,"backgroundSetting_131_horizontalAlignDesc" : "横方向位置揃え"
+   ,"backgroundSetting_132_horizontalAlignLeft" : "左端"
+   ,"backgroundSetting_133_horizontalAlignCenter" : "中央"
+   ,"backgroundSetting_134_horizontalAlignRight" : "右端"
+}
