@@ -8,59 +8,59 @@
       <group id="resources">
         <trans-unit id="resources\appSettingTitle" translate="yes" xml:space="preserve">
           <source>アプリの設定</source>
-          <target state="new">アプリの設定</target>
+          <target state="translated" state-qualifier="mt-suggestion">App settings</target>
         </trans-unit>
         <trans-unit id="resources\backgroundSetting_100_title" translate="yes" xml:space="preserve">
           <source>背景画像</source>
-          <target state="new">背景画像</target>
+          <target state="translated" state-qualifier="mt-suggestion">Background image</target>
         </trans-unit>
         <trans-unit id="resources\backgroundSetting_101_description1" translate="yes" xml:space="preserve">
           <source>このアプリの背景画像を設定できます。</source>
-          <target state="new">このアプリの背景画像を設定できます。</target>
+          <target state="translated" state-qualifier="mt-suggestion">You can set the background image for this app.</target>
         </trans-unit>
         <trans-unit id="resources\backgroundSetting_102_description2" translate="yes" xml:space="preserve">
           <source>背景画像は、アプリ全体を覆うように縦横比を保ったまま拡大縮小されます。</source>
-          <target state="new">背景画像は、アプリ全体を覆うように縦横比を保ったまま拡大縮小されます。</target>
+          <target state="translated">The background image is scaled so that the image covers the entire app. The aspect ratio of the image is kept.</target>
         </trans-unit>
         <trans-unit id="resources\backgroundSetting_111_setupButtonDesc" translate="yes" xml:space="preserve">
           <source>背景画像を設定</source>
-          <target state="new">背景画像を設定</target>
+          <target state="translated">Choose background image</target>
         </trans-unit>
         <trans-unit id="resources\backgroundSetting_112_removeButtonDesc" translate="yes" xml:space="preserve">
           <source>背景画像を削除</source>
-          <target state="new">背景画像を削除</target>
+          <target state="translated">Remove background image</target>
         </trans-unit>
         <trans-unit id="resources\backgroundSetting_121_verticalAlignDesc" translate="yes" xml:space="preserve">
           <source>縦方向位置揃え</source>
-          <target state="new">縦方向位置揃え</target>
+          <target state="translated">Vertical alignment</target>
         </trans-unit>
         <trans-unit id="resources\backgroundSetting_122_verticalAlignTop" translate="yes" xml:space="preserve">
           <source>上端</source>
-          <target state="new">上端</target>
+          <target state="translated">Top</target>
         </trans-unit>
         <trans-unit id="resources\backgroundSetting_123_verticalAlignCenter" translate="yes" xml:space="preserve">
           <source>中央</source>
-          <target state="new">中央</target>
+          <target state="translated">Center</target>
         </trans-unit>
         <trans-unit id="resources\backgroundSetting_124_verticalAlignBottom" translate="yes" xml:space="preserve">
           <source>下端</source>
-          <target state="new">下端</target>
+          <target state="translated">Bottom</target>
         </trans-unit>
         <trans-unit id="resources\backgroundSetting_131_horizontalAlignDesc" translate="yes" xml:space="preserve">
           <source>横方向位置揃え</source>
-          <target state="new">横方向位置揃え</target>
+          <target state="translated">Horizontal alignment</target>
         </trans-unit>
         <trans-unit id="resources\backgroundSetting_132_horizontalAlignLeft" translate="yes" xml:space="preserve">
           <source>左端</source>
-          <target state="new">左端</target>
+          <target state="translated">Left</target>
         </trans-unit>
         <trans-unit id="resources\backgroundSetting_133_horizontalAlignCenter" translate="yes" xml:space="preserve">
           <source>中央</source>
-          <target state="new">中央</target>
+          <target state="translated">Center</target>
         </trans-unit>
         <trans-unit id="resources\backgroundSetting_134_horizontalAlignRight" translate="yes" xml:space="preserve">
           <source>右端</source>
-          <target state="new">右端</target>
+          <target state="translated">Right</target>
         </trans-unit>
       </group>
     </body>
