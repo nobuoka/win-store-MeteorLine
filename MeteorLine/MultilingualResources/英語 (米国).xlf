@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="ja-JP" target-language="en-US" original="MeteorLine_Multilingual.prilog.xml" tool-id="MultilingualAppToolkit" product-name="MeteorLine" product-version="Version 1" build-num="1.0.0.0">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="1.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="resources">
+        <trans-unit id="resources\appSettingTitle" translate="yes" xml:space="preserve">
+          <source>アプリの設定</source>
+          <target state="new">アプリの設定</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_100_title" translate="yes" xml:space="preserve">
+          <source>背景画像</source>
+          <target state="new">背景画像</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_101_description1" translate="yes" xml:space="preserve">
+          <source>このアプリの背景画像を設定できます。</source>
+          <target state="new">このアプリの背景画像を設定できます。</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_102_description2" translate="yes" xml:space="preserve">
+          <source>背景画像は、アプリ全体を覆うように縦横比を保ったまま拡大縮小されます。</source>
+          <target state="new">背景画像は、アプリ全体を覆うように縦横比を保ったまま拡大縮小されます。</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_111_setupButtonDesc" translate="yes" xml:space="preserve">
+          <source>背景画像を設定</source>
+          <target state="new">背景画像を設定</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_112_removeButtonDesc" translate="yes" xml:space="preserve">
+          <source>背景画像を削除</source>
+          <target state="new">背景画像を削除</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_121_verticalAlignDesc" translate="yes" xml:space="preserve">
+          <source>縦方向位置揃え</source>
+          <target state="new">縦方向位置揃え</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_122_verticalAlignTop" translate="yes" xml:space="preserve">
+          <source>上端</source>
+          <target state="new">上端</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_123_verticalAlignCenter" translate="yes" xml:space="preserve">
+          <source>中央</source>
+          <target state="new">中央</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_124_verticalAlignBottom" translate="yes" xml:space="preserve">
+          <source>下端</source>
+          <target state="new">下端</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_131_horizontalAlignDesc" translate="yes" xml:space="preserve">
+          <source>横方向位置揃え</source>
+          <target state="new">横方向位置揃え</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_132_horizontalAlignLeft" translate="yes" xml:space="preserve">
+          <source>左端</source>
+          <target state="new">左端</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_133_horizontalAlignCenter" translate="yes" xml:space="preserve">
+          <source>中央</source>
+          <target state="new">中央</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_134_horizontalAlignRight" translate="yes" xml:space="preserve">
+          <source>右端</source>
+          <target state="new">右端</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
