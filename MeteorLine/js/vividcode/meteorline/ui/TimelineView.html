@@ -25,7 +25,7 @@
                 <span class="name" data-win-bind="textContent: user.name"></span>
                 <span class="screen-name">@<span data-win-bind="textContent: user.screen_name"></span></span>
             </div>
-            <div class="text" data-win-bind="textContent: text"></div>
+            <div class="text" data-win-bind="innerHTML: text_html"></div>
         </div>
     </div>
     <!-- retweeted status 用テンプレート -->
@@ -36,7 +36,7 @@
                 <span class="name" data-win-bind="textContent: retweeted_status.user.name"></span>
                 <span class="screen-name">@<span data-win-bind="textContent: retweeted_status.user.screen_name"></span></span>
             </div>
-            <div class="text" data-win-bind="textContent: retweeted_status.text"></div>
+            <div class="text" data-win-bind="innerHTML: retweeted_status.text_html"></div>
             <div class="retweeter-box">
                 <img class="profile-image" src="#" data-win-bind="src: user.profile_image_url_https" />
                 <span class="screen-name" data-win-bind="textContent: user.screen_name"></span>

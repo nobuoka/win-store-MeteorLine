@@ -4,6 +4,17 @@ body {
     background-color: #555555;
 }
 
+/* リンク色: ui-dark.css の上書き */
+a {
+    color: rgba(137, 195, 235, 1); /* 空色 */
+}
+a:hover:active {
+    color: rgba(137, 195, 235, 0.6);
+}
+a:hover {
+    color: rgba(137, 195, 235, 0.8);
+}
+
 #contenthost {
     height: 100%;
     width: 100%;
