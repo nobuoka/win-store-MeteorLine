@@ -21,25 +21,42 @@
     <div class="twitter-status-view-template" data-win-control="WinJS.Binding.Template">
         <div class="status s-glassiness">
             <div class="user-box">
-                <img class="profile-image" src="#" data-win-bind="src: user.profile_image_url_https" />
-                <span class="name" data-win-bind="textContent: user.name"></span>
-                <span class="screen-name">@<span data-win-bind="textContent: user.screen_name"></span></span>
+                <a class="profile-image-container" data-win-bind="href: user.profile_page_uri"
+                    ><img class="profile-image" src="#" data-win-bind="src: user.profile_image_url_https" /></a>
+                <a class="name-container" data-win-bind="href: user.profile_page_uri"
+                    ><span class="name" data-win-bind="textContent: user.name"></span></a>
+                <a class="screen-name-container" data-win-bind="href: user.profile_page_uri"
+                    ><span class="screen-name">@<span data-win-bind="textContent: user.screen_name"></span></span></a>
             </div>
-            <div class="text" data-win-bind="textContent: text"></div>
+            <div class="text" data-win-bind="innerHTML: text_html"></div>
+            <div class="created-at">
+                <a data-win-bind="href: status_uri; textContent: created_at_locale_str"></a>
+            </div>
         </div>
     </div>
     <!-- retweeted status 用テンプレート -->
     <div class="twitter-retweeted-status-view-template" data-win-control="WinJS.Binding.Template">
         <div class="status retweeted-status s-glassiness">
             <div class="user-box">
-                <img class="profile-image" src="#" data-win-bind="src: retweeted_status.user.profile_image_url_https" />
-                <span class="name" data-win-bind="textContent: retweeted_status.user.name"></span>
-                <span class="screen-name">@<span data-win-bind="textContent: retweeted_status.user.screen_name"></span></span>
+                <a class="profile-image-container" data-win-bind="href: retweeted_status.user.profile_page_uri"
+                    ><img class="profile-image" src="#" data-win-bind="src: retweeted_status.user.profile_image_url_https" /></a>
+                <a class="name-container" data-win-bind="href: retweeted_status.user.profile_page_uri"
+                    ><span class="name" data-win-bind="textContent: retweeted_status.user.name"></span></a>
+                <a class="screen-name-container" data-win-bind="href: retweeted_status.user.profile_page_uri"
+                    ><span class="screen-name">@<span data-win-bind="textContent: retweeted_status.user.screen_name"></span></span></a>
             </div>
-            <div class="text" data-win-bind="textContent: retweeted_status.text"></div>
+            <div class="text" data-win-bind="innerHTML: retweeted_status.text_html"></div>
+            <div class="created-at">
+                <a data-win-bind="href: retweeted_status.status_uri; textContent: retweeted_status.created_at_locale_str"></a>
+            </div>
             <div class="retweeter-box">
-                <img class="profile-image" src="#" data-win-bind="src: user.profile_image_url_https" />
-                <span class="screen-name" data-win-bind="textContent: user.screen_name"></span>
+                <span>retweeted by </span>
+                <a class="retweeter-name-container" data-win-bind="href: user.profile_page_uri">
+                    <img class="profile-image" src="#" data-win-bind="src: user.profile_image_url_https" />
+                    <span class="name" data-win-bind="textContent: user.name"></span>
+                    <span class="screen-name-container">(@<span class="screen-name" data-win-bind="textContent: user.screen_name"></span>)</span>
+                </a>
+                <span class="created-at">at <span data-win-bind="textContent: created_at_locale_str"></span></span>
             </div>
         </div>
     </div>

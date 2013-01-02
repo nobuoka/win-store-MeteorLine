@@ -136,6 +136,7 @@
             this.element.addEventListener("click", function (evt) {
                 var e = getStatusElemFromAncestors(evt.target);
                 if (e) {
+                    evt.preventDefault();
                     var key = e.getAttribute("data-item-key");
                     that.dispatchEvent("itemclicked", { itemKey: key, itemElement: e });
                 }
@@ -696,13 +697,116 @@
             });
         },
         __pushStatus: function (status) {
+            var that = this;
             if (this._timelineItemList.length >= this._maxNumItems) this._timelineItemList.shift();
             this._idStrOfLastAddedStatus = status.id_str;
+            // status オブジェクトに対する変更はここで行う
+            var target = [status];
+            if (status.retweeted_status) target.push(status.retweeted_status);
+            target.forEach(function (status) {
+                status.status_uri = "https://twitter.com/" + status.user.screen_name + "/status/" + status.id_str;
+                status.user.profile_page_uri = "https://twitter.com/" + status.user.screen_name;
+                // entities を埋め込み
+                status.text_html = that.__createEntitiesEmbeddedText(status);
+                // date
+                status.created_at_date = that.__createDateObjCreatedAt(status);
+                status.created_at_locale_str = status.created_at_date.toLocaleString();
+            });
+            // push
             this._timelineItemList.push(status);
         },
         __pushStatuses: function (statuses) { // statuses のインデックスの大きい方が新しいツイート
             var that = this;
             statuses.forEach(function (status) { that.__pushStatus(status) });
+        },
+
+        __createEntitiesEmbeddedText: function (status) {
+            /// <summary>Twitter の status オブジェクトを受け取り, entities を text に埋め込んだ文字列を返す</summary>
+
+            function escapeForHTML(str) {
+                /// <summary>&, ", ', <, > の 5 文字を文字参照または実体参照に変換する</summary>
+                var map = {
+                    "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;"
+                };
+                function esc(char) {
+                    return map[char];
+                }
+                return str.replace(/&|<|>|"|'/g, esc);
+            }
+
+            var text = status.text;
+            var chars = []; // 文字を文字として扱うように (サロゲートペアの考慮)
+            for (var i = 0; i < text.length; ++i) {
+                if (/[\uD800-\uDFFF]/.test(text.substring(i, i+1))) {
+                    chars.push(text.substring(i, i+2));
+                    ++i;
+                } else {
+                    chars.push(text.substring(i, i+1));
+                }
+            }
+
+            var entities = status.entities;
+            var replacementTexts = [];
+            // user_mentions
+            entities.user_mentions.forEach(function (userMentionInfo) {
+                var sIdx = userMentionInfo.indices[0];
+                var eIdx = userMentionInfo.indices[1];
+                var replacementText =
+                    "<a href=\"https://twitter.com/" + escapeForHTML(encodeURIComponent(userMentionInfo.screen_name)) +
+                    "\">@" + escapeForHTML(userMentionInfo.screen_name) + "</a>";
+                replacementTexts.push({ text: replacementText, sIdx: sIdx, eIdx: eIdx });
+            });
+            // hashtags
+            entities.hashtags.forEach(function (hashtagInfo) {
+                var sIdx = hashtagInfo.indices[0];
+                var eIdx = hashtagInfo.indices[1];
+                var replacementText =
+                    "<a href=\"https://twitter.com/search?q=%23" + escapeForHTML(encodeURIComponent(hashtagInfo.text)) +
+                    "&src=hash\">#" + escapeForHTML(hashtagInfo.text) + "</a>";
+                replacementTexts.push({ text: replacementText, sIdx: sIdx, eIdx: eIdx });
+            });
+            // urls
+            entities.urls.forEach(function (urlInfo) {
+                var sIdx = urlInfo.indices[0];
+                var eIdx = urlInfo.indices[1];
+                var replacementText =
+                    "<a href=\"" + escapeForHTML(urlInfo.expanded_url) + "\">" + escapeForHTML(urlInfo.display_url) + "</a>";
+                replacementTexts.push({ text: replacementText, sIdx: sIdx, eIdx: eIdx });
+            });
+            // media
+            if (entities.media) {
+                entities.media.forEach(function (mediaInfo) {
+                    // とりあえず urls と同じ処理をするだけ; そのうち埋め込みとかしたい
+                    var sIdx = mediaInfo.indices[0];
+                    var eIdx = mediaInfo.indices[1];
+                    var replacementText =
+                        "<a href=\"" + escapeForHTML(mediaInfo.expanded_url) + "\">" + escapeForHTML(mediaInfo.display_url) + "</a>";
+                    replacementTexts.push({ text: replacementText, sIdx: sIdx, eIdx: eIdx });
+                });
+            }
+            // replace
+            replacementTexts = replacementTexts.sort(function (a, b) {
+                return a.sIdx < b.sIdx ? -1 : a.sIdx > b.sIdx ? 1 : 0;
+            });
+            var curIdx = 0;
+            var replacedTextComps = [];
+            replacementTexts.forEach(function (t) {
+                replacedTextComps.push(chars.slice(curIdx, t.sIdx).join(""));
+                replacedTextComps.push(t.text);
+                curIdx = t.eIdx;
+            });
+            replacedTextComps.push(chars.slice(curIdx).join(""));
+            var s = replacedTextComps.join("")
+            // 改行を <br> に
+            s = s.replace(/\n/g, "<br />");
+            return s;
+        },
+
+        __createDateObjCreatedAt: function (status) {
+            var dd = status.created_at.split(/\s+/);
+            dd.shift();
+            dd.unshift(dd.pop());
+            return new Date(dd.join(" "));
         },
 
         updateLayout: function (element, viewState, lastViewState) {
