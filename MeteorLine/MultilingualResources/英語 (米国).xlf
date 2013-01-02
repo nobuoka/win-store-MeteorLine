@@ -62,6 +62,14 @@
           <source>右端</source>
           <target state="translated">Right</target>
         </trans-unit>
+        <trans-unit id="resources\privacyPolicyWeb_100_title" translate="yes" xml:space="preserve">
+          <source>プライバシーポリシー (web)</source>
+          <target state="translated">Privacy policy (web)</target>
+        </trans-unit>
+        <trans-unit id="resources\privacyPolicyWeb_101_url" translate="yes" xml:space="preserve">
+          <source>http://www.vividcode.info/project/meteorline/privacypolicy.txt</source>
+          <target state="translated">http://www.vividcode.info/project/meteorline/privacypolicy.txt</target>
+        </trans-unit>
       </group>
     </body>
   </file>

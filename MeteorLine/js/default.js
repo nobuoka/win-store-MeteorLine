@@ -76,12 +76,12 @@
     // アプリ設定に関して - 参考 : http://vividcode.hatenablog.com/entry/winrt/app-settings-js
     app.addEventListener("settings", function (evt) {
         var cmds = evt.detail.e.request.applicationCommands;
-        cmds.append(new Windows.UI.ApplicationSettings.SettingsCommand("privacyPolicy", "プライバシーポリシー (web)", function (cmd) {
-            var uriToLaunch = "http://www.vividcode.info/project/meteorline/privacypolicy.txt";
+        cmds.append(new Windows.UI.ApplicationSettings.SettingsCommand("privacyPolicy", WinJS.Resources.getString("privacyPolicyWeb_100_title").value, function (cmd) {
+            var uriToLaunch = WinJS.Resources.getString("privacyPolicyWeb_101_url").value;
             var uri = new Windows.Foundation.Uri(uriToLaunch);
             Windows.System.Launcher.launchUriAsync(uri);
         }));
-        cmds.append(new Windows.UI.ApplicationSettings.SettingsCommand("appSetting", "アプリの設定", function (cmd) {
+        cmds.append(new Windows.UI.ApplicationSettings.SettingsCommand("appSetting", WinJS.Resources.getString("appSettingTitle").value, function (cmd) {
             WinJS.UI.SettingsFlyout.showSettings("appSetting", "/pages/setting/appSetting.html");
         }));
 

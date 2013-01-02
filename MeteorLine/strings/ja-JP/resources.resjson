@@ -1,7 +1,9 @@
 ﻿// Windows アプリケーションのローカライズの詳細については、次を参照してください: http://go.microsoft.com/fwlink/?LinkId=212836
 
 {
-    "appSettingTitle" : "アプリの設定"
+    "privacyPolicyWeb_100_title" : "プライバシーポリシー (web)"
+   ,"privacyPolicyWeb_101_url" : "http://www.vividcode.info/project/meteorline/privacypolicy.txt"
+   ,"appSettingTitle" : "アプリの設定"
    ,"backgroundSetting_100_title" : "背景画像"
    ,"backgroundSetting_101_description1" : "このアプリの背景画像を設定できます。"
    ,"backgroundSetting_102_description2" : "背景画像は、アプリ全体を覆うように縦横比を保ったまま拡大縮小されます。"
