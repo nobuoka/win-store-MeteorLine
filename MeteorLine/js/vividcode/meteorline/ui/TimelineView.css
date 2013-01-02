@@ -54,7 +54,15 @@
 .timeline-view-component .status .screen-name {
     opacity: 0.8;
 }
+.timeline-view-component .status .created-at {
+    display: none;
+}
+.timeline-view-component .status .retweeter-box {
+    text-align: right;
+    opacity: 0.8;
+}
 .timeline-view-component .status .retweeter-box .screen-name {
+    opacity: 1;
     font-size: 85%;
 }
 .timeline-view-component .status .retweeter-box .screen-name::before {
@@ -105,10 +113,32 @@
     padding: 0;
 }
 .timeline-view-component .timeline-item-flyout.win-flyout .target-item-container {
-    max-width: 300px;
+    max-width: 500px;
 }
+.timeline-view-component .timeline-item-flyout.win-flyout .status .text {
+    margin-bottom: 0.3em;
+}
+.timeline-view-component .timeline-item-flyout.win-flyout .status .created-at {
+    display: block;
+    font-size: 85%;
+}
+.timeline-view-component .timeline-item-flyout.win-flyout .status .created-at a {
+    color: #666666;
+}
+.timeline-view-component .timeline-item-flyout.win-flyout .status .created-at a:hover {
+    color: #666699;
+}
+.timeline-view-component .timeline-item-flyout.win-flyout .status .created-at a:hover:active {
+    color: #9999CC;
+}
+.timeline-view-component .timeline-item-flyout.win-flyout .status .retweeter-box {
+    color: #666666;
+    opacity: 1;
+}
+/* status に対する action */
 .timeline-view-component .timeline-item-flyout.win-flyout .timeline-item-cmds {
     margin: 8px;
+    max-width: 300px;
     display: -ms-grid;
     -ms-grid-columns: 1fr 2px 1fr 2px 1fr;
 }

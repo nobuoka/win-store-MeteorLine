@@ -697,11 +697,21 @@
             });
         },
         __pushStatus: function (status) {
+            var that = this;
             if (this._timelineItemList.length >= this._maxNumItems) this._timelineItemList.shift();
             this._idStrOfLastAddedStatus = status.id_str;
-            // entities を埋め込み
-            status.text_html = this.__createEntitiesEmbeddedText(status);
-            if (status.retweeted_status) status.retweeted_status.text_html = this.__createEntitiesEmbeddedText(status.retweeted_status);
+            // status オブジェクトに対する変更はここで行う
+            var target = [status];
+            if (status.retweeted_status) target.push(status.retweeted_status);
+            target.forEach(function (status) {
+                status.status_uri = "https://twitter.com/" + status.user.screen_name + "/status/" + status.id_str;
+                // entities を埋め込み
+                status.text_html = that.__createEntitiesEmbeddedText(status);
+                // date
+                status.created_at_date = that.__createDateObjCreatedAt(status);
+                status.created_at_locale_str = status.created_at_date.toLocaleString();
+            });
+            // push
             this._timelineItemList.push(status);
         },
         __pushStatuses: function (statuses) { // statuses のインデックスの大きい方が新しいツイート
@@ -789,6 +799,13 @@
             // 改行を <br> に
             s = s.replace(/\n/g, "<br />");
             return s;
+        },
+
+        __createDateObjCreatedAt: function (status) {
+            var dd = status.created_at.split(/\s+/);
+            dd.shift();
+            dd.unshift(dd.pop());
+            return new Date(dd.join(" "));
         },
 
         updateLayout: function (element, viewState, lastViewState) {
