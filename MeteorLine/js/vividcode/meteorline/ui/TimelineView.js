@@ -705,6 +705,7 @@
             if (status.retweeted_status) target.push(status.retweeted_status);
             target.forEach(function (status) {
                 status.status_uri = "https://twitter.com/" + status.user.screen_name + "/status/" + status.id_str;
+                status.user.profile_page_uri = "https://twitter.com/" + status.user.screen_name;
                 // entities を埋め込み
                 status.text_html = that.__createEntitiesEmbeddedText(status);
                 // date

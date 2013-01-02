@@ -37,19 +37,21 @@
 
     overflow: auto;
 }
-.timeline-view-component .status .profile-image {
+/* profile pege へのリンク色は通常色 */
+.timeline-view-component .status .user-box a,
+.timeline-view-component .status .retweeter-box a {
+    color: inherit;
+}
+.timeline-view-component .status .profile-image-container {
     position: absolute;
     top: 3px; left: 3px;
     width: 48px; height: 48px;
 }
-.timeline-view-component .status.retweeted-status .profile-image {
-    width: 44px; height: 44px;
+.timeline-view-component .status .profile-image {
+    width: 100%; height: 100%;
 }
-.timeline-view-component .status .retweeter-box .profile-image {
-    position: absolute;
-    top: 27px; left: 27px;
-    width: 20px; height: 20px;
-    border: solid 2px #333330;
+.timeline-view-component .status .user-box .name {
+    font-weight: bold;
 }
 .timeline-view-component .status .screen-name {
     opacity: 0.8;
@@ -58,15 +60,17 @@
     display: none;
 }
 .timeline-view-component .status .retweeter-box {
+    font-size: 85%;
     text-align: right;
     opacity: 0.8;
+    margin-left: -50px;
 }
-.timeline-view-component .status .retweeter-box .screen-name {
-    opacity: 1;
-    font-size: 85%;
+.timeline-view-component .status .retweeter-box .profile-image {
+    width: 16px; height: 16px;
+    vertical-align: middle;
 }
-.timeline-view-component .status .retweeter-box .screen-name::before {
-    content: "retweeted by ";
+.timeline-view-component .status .retweeter-box .screen-name-container {
+    display: none;
 }
 
 /* ---- stream の状態 ---- */
@@ -122,18 +126,27 @@
     display: block;
     font-size: 85%;
 }
-.timeline-view-component .timeline-item-flyout.win-flyout .status .created-at a {
+.timeline-view-component .timeline-item-flyout.win-flyout .status .retweeter-box .created-at {
+    font-size: 100%;
+}
+.timeline-view-component .timeline-item-flyout.win-flyout .status .created-at a,
+.timeline-view-component .timeline-item-flyout.win-flyout .status .retweeter-name-container a {
     color: #666666;
 }
-.timeline-view-component .timeline-item-flyout.win-flyout .status .created-at a:hover {
-    color: #666699;
-}
-.timeline-view-component .timeline-item-flyout.win-flyout .status .created-at a:hover:active {
+/* a 要素の下に別の要素があると a:active が有効にならないので, とりあえず :active は使わないことにする */
+.timeline-view-component .timeline-item-flyout.win-flyout .status .user-box a:hover,
+.timeline-view-component .timeline-item-flyout.win-flyout .status .retweeter-box a:hover,
+.timeline-view-component .timeline-item-flyout.win-flyout .status .created-at a:hover,
+.timeline-view-component .timeline-item-flyout.win-flyout .status .retweeter-name-container a:hover {
     color: #9999CC;
 }
 .timeline-view-component .timeline-item-flyout.win-flyout .status .retweeter-box {
     color: #666666;
     opacity: 1;
+    margin-top: 0.4em;
+}
+.timeline-view-component .timeline-item-flyout.win-flyout .status .retweeter-box .screen-name-container {
+    display: inline;
 }
 /* status に対する action */
 .timeline-view-component .timeline-item-flyout.win-flyout .timeline-item-cmds {
