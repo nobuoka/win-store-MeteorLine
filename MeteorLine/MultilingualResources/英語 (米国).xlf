@@ -6,6 +6,14 @@
     </header>
     <body>
       <group id="resources">
+        <trans-unit id="resources\000_appName" translate="yes" xml:space="preserve">
+          <source>MeteorLine</source>
+          <target state="translated">MeteorLine</target>
+        </trans-unit>
+        <trans-unit id="resources\002_appDescription" translate="yes" xml:space="preserve">
+          <source>Home Timeline の表示 (User Stream API 使用) とツイートの投稿が可能なツイッタークライアントです。</source>
+          <target state="translated">This app is a Twitter client. Using this, you can see your home timeline (using User Stream API) and can post tweets.</target>
+        </trans-unit>
         <trans-unit id="resources\appSettingTitle" translate="yes" xml:space="preserve">
           <source>アプリの設定</source>
           <target state="translated" state-qualifier="mt-suggestion">App settings</target>
