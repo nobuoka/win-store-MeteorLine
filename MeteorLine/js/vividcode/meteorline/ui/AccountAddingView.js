@@ -32,6 +32,7 @@
 
         // この PageControl の中身が使えるようになった状態になった後に行う処理
         ready: function (element, options) {
+            WinJS.Resources.processAll(element);
             // 処理中に表示する各種要素の取得
             this._processElems.initial = this.element.getElementsByClassName("initial").item(0);
             this._processElems.progress = this.element.getElementsByClassName("progress").item(0);
@@ -68,7 +69,9 @@
                 that.__showVerifyForm(that._credsObtainer.getResourceOwnerAuthorizationUriStr());
             }, function onError(err) {
                 if (err && err.name === "Canceled" && err.description === "Canceled") return; // do nothing
-                that.__showMessage(err);
+                // とりあえずエラーが起こったら固定のメッセージを出す
+                var errMsg = WinJS.Resources.getString("200_accountManagement_121_tempCredsError").value;
+                that.__showMessage(errMsg);
             }).then(function () { // 上で非同期処理を返さなければ, then の間に別の処理が入ることはない
                 promise.done();
                 if (that._processingPromise === promise) that._processingPromise = null;
@@ -106,7 +109,9 @@
                 }
             }, function onError(err) {
                 if (err && err.name === "Canceled" && err.description === "Canceled") return; // do nothing
-                that.__showMessage(err);
+                // とりあえずエラーが起こったら固定のメッセージを出す
+                var errMsg = WinJS.Resources.getString("200_accountManagement_122_userCredsError").value;
+                that.__showMessage(errMsg);
             }).then(function () { // 上で非同期処理を返さなければ, then の間に別の処理が入ることはない
                 promise.done();
                 if (that._processingPromise === promise) that._processingPromise = null;

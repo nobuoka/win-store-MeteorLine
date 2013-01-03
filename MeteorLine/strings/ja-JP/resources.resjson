@@ -3,6 +3,7 @@
 {
     "000_appName" : "MeteorLine"
    ,"002_appDescription" : "Home Timeline の表示 (User Stream API 使用) とツイートの投稿が可能なツイッタークライアントです。"
+
    ,"privacyPolicyWeb_100_title" : "プライバシーポリシー (web)"
    ,"privacyPolicyWeb_101_url" : "http://www.vividcode.info/project/meteorline/privacypolicy.txt"
    ,"appSettingTitle" : "アプリの設定"
@@ -19,4 +20,17 @@
    ,"backgroundSetting_132_horizontalAlignLeft" : "左端"
    ,"backgroundSetting_133_horizontalAlignCenter" : "中央"
    ,"backgroundSetting_134_horizontalAlignRight" : "右端"
+
+   ,"200_accountManagement_000_title" : "アカウント管理"
+   ,"200_accountManagement_100_additionTitle" : "アカウント追加"
+   ,"200_accountManagement_101_startAccountAddition" : "Twitter アカウントの追加処理を開始"
+   ,"200_accountManagement_102_restartAccountAddition" : "アカウント追加処理を最初からやり直す"
+   ,"200_accountManagement_111_accountAddProcessMessagePre" : "Twitter のページ"
+   ,"200_accountManagement_112_accountAddProcessMessagePost" : "にアクセスして本アプリのアクセスを許可し、表示された文字列を次のフィールドに入力してください。"
+   ,"200_accountManagement_115_messageForNotTwitterUser" : "Twitter へのユーザー登録は Twitter.com で行うことができます"
+   ,"200_accountManagement_121_tempCredsError" : "通信に失敗しました。 後でやり直してください。"
+   ,"200_accountManagement_122_userCredsError" : "トークン取得に失敗しました。 通信に失敗したか、入力された値が間違っています。"
+   ,"200_accountManagement_200_accountListTitle" : "アカウント一覧"
+   ,"200_accountManagement_211_deleteAccountCmd" : "削除"
+   ,"_200_accountManagement_211_deleteAccountCmd.comment" : "アカウント一覧からアカウントを削除するためのコマンドに表示するラベル"
 }
