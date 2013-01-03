@@ -58,6 +58,58 @@
           <source>削除</source>
           <target state="translated" state-qualifier="mt-suggestion">Delete</target>
         </trans-unit>
+        <trans-unit id="resources\300_timelines_000_title" translate="yes" xml:space="preserve">
+          <source>タイムライン一覧</source>
+          <target state="translated">Timelines</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_111_replyCmd" translate="yes" xml:space="preserve">
+          <source>返信</source>
+          <target state="translated">Reply</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_112_setReplyToMsg" translate="yes" xml:space="preserve">
+          <source>返信先設定済</source>
+          <target state="translated">Set reply-to</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_121_favCmd" translate="yes" xml:space="preserve">
+          <source>Fav</source>
+          <target state="translated">Favorite</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_122_favedMsg" translate="yes" xml:space="preserve">
+          <source>Fav 済</source>
+          <target state="translated">Favorited</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_131_retweetCmd" translate="yes" xml:space="preserve">
+          <source>RT</source>
+          <target state="translated">Retweet</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_132_retweetedMsg" translate="yes" xml:space="preserve">
+          <source>RT 済</source>
+          <target state="translated">Retweeted</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_211_userStreamStart" translate="yes" xml:space="preserve">
+          <source>開始</source>
+          <target state="translated">Start</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_212_userStreamStop" translate="yes" xml:space="preserve">
+          <source>停止</source>
+          <target state="translated">Stop</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_221_sendTweet" translate="yes" xml:space="preserve">
+          <source>投稿</source>
+          <target state="translated">Tweet</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_222_closeTweetForm" translate="yes" xml:space="preserve">
+          <source>閉じる</source>
+          <target state="translated">Close</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_223_removeReplyTo" translate="yes" xml:space="preserve">
+          <source>返信をやめる</source>
+          <target state="translated">Remove reply-to</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_225_sendTweetFailedMsg" translate="yes" xml:space="preserve">
+          <source>投稿に失敗しました</source>
+          <target state="translated">Failed to tweet</target>
+        </trans-unit>
         <trans-unit id="resources\appSettingTitle" translate="yes" xml:space="preserve">
           <source>アプリの設定</source>
           <target state="translated" state-qualifier="mt-suggestion">App settings</target>

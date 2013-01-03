@@ -33,4 +33,18 @@
    ,"200_accountManagement_200_accountListTitle" : "アカウント一覧"
    ,"200_accountManagement_211_deleteAccountCmd" : "削除"
    ,"_200_accountManagement_211_deleteAccountCmd.comment" : "アカウント一覧からアカウントを削除するためのコマンドに表示するラベル"
+
+   ,"300_timelines_000_title" : "タイムライン一覧"
+   ,"310_twitterHomeTimeline_111_replyCmd" : "返信"
+   ,"310_twitterHomeTimeline_112_setReplyToMsg" : "返信先設定済"
+   ,"310_twitterHomeTimeline_121_favCmd" : "Fav"
+   ,"310_twitterHomeTimeline_122_favedMsg" : "Fav 済"
+   ,"310_twitterHomeTimeline_131_retweetCmd" : "RT"
+   ,"310_twitterHomeTimeline_132_retweetedMsg" : "RT 済"
+   ,"310_twitterHomeTimeline_211_userStreamStart" : "開始"
+   ,"310_twitterHomeTimeline_212_userStreamStop" : "停止"
+   ,"310_twitterHomeTimeline_221_sendTweet" : "投稿"
+   ,"310_twitterHomeTimeline_222_closeTweetForm" : "閉じる"
+   ,"310_twitterHomeTimeline_223_removeReplyTo" : "返信をやめる"
+   ,"310_twitterHomeTimeline_225_sendTweetFailedMsg" : "投稿に失敗しました"
 }

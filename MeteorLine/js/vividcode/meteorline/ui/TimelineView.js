@@ -52,7 +52,8 @@
                 tweetFormElem.classList.remove("active");
                 that.removeReplyTo();
             }, function onError(err) {
-                tweetFormElem.querySelector(".error-message").textContent = "投稿に失敗しました : " + err.description;
+                var errMsg = WinJS.Resources.getString("310_twitterHomeTimeline_225_sendTweetFailedMsg").value;
+                tweetFormElem.querySelector(".error-message").textContent = errMsg + " : " + err.description;
                 console.dir(err);
             }).then(function () {
                 tweetFormElem.classList.remove("progress");
@@ -492,6 +493,7 @@
         },
 
         ready: function (element, options) {
+            WinJS.Resources.processAll(element);
             var that = this;
 
             this._timelineItemListView.addEventListener("itemclicked", function (evt) {
@@ -518,6 +520,9 @@
                 var flyoutContentTemplate = that.element.querySelector(".timeline-item-flyout-content-template").winControl;
 
                 flyoutContentTemplate.render().then(function (elem) {
+                    // PageControl の ready で行うだけじゃ不十分?
+                    // 言語変更時に template 内まで変化しない? よくわからないけど必要
+                    WinJS.Resources.processAll(elem);
                     // ツイート追加
                     flyoutElem.appendChild(elem);
                     var c = flyoutElem.querySelector(".target-item-container");
