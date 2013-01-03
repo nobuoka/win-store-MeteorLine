@@ -47,4 +47,7 @@
    ,"310_twitterHomeTimeline_222_closeTweetForm" : "閉じる"
    ,"310_twitterHomeTimeline_223_removeReplyTo" : "返信をやめる"
    ,"310_twitterHomeTimeline_225_sendTweetFailedMsg" : "投稿に失敗しました"
+   ,"310_twitterHomeTimeline_231_sendTweetClientErrorMsg" : "入力値が不正である可能性や、認証が無効になっている可能性があります"
+   ,"310_twitterHomeTimeline_232_sendTweetServerErrorMsg" : "Twitter のサーバー側でエラーが発生"
+   ,"310_twitterHomeTimeline_233_sendTweetNetworkErrorMsg" : "ネットワークの通信エラーが発生"
 }

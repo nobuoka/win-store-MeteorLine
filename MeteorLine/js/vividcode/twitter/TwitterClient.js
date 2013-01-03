@@ -4,6 +4,18 @@
 /// <reference path="/js/sha1.js" />
 (function () {
 
+    var TwitterClientRequestError = WinJS.Class.derive(Error, function (name, message) {
+        this.name = name;
+        this.message = message;
+    }, {
+    }, {
+        Name: {
+            NetworkError: "NetworkError",
+            ServerError: "ServerError",
+            ClientError: "ClientError",
+        },
+    });
+
     var TwitterClient = WinJS.Class.define(function (consumerKeys, creds) {
         this._creds = creds;
         this._consumerKeys = consumerKeys;
@@ -58,17 +70,29 @@
                     console.dir(xhrOrError);
                     if (xhrOrError instanceof XMLHttpRequest) {
                         var xhr = xhrOrError;
-                        if (400 <= xhr.status && xhr.status < 500) {
-                            return WinJS.Promise.wrapError(new Error("パラメータがおかしいなどの理由でリクエストが拒否されました"));
+                        if (xhr.status === 0) {
+                            var err = new TwitterClientRequestError(
+                                TwitterClientRequestError.Name.NetworkError,
+                                "ネットワークエラーでリクエストが失敗しました");
+                            return WinJS.Promise.wrapError(err);
+                        } else if (400 <= xhr.status && xhr.status < 500) {
+                            var err = new TwitterClientRequestError(
+                                TwitterClientRequestError.Name.ClientError,
+                                "パラメータがおかしいなどの理由でリクエストが拒否されました");
+                            return WinJS.Promise.wrapError(err);
                         } else if (500 <= xhr.status) {
-                            return WinJS.Promise.wrapError(new Error("サーバー側のエラーでリクエストが失敗しました"));
+                            var err = new TwitterClientRequestError(
+                                TwitterClientRequestError.Name.ServerError,
+                                "サーバー側のエラーでリクエストが失敗しました");
+                            return WinJS.Promise.wrapError(err);
                         }
                         console.log(xhr.responseText);
-                        return WinJS.Promise.wrapError(new Error("XHR Error"));
+                        var err = new Error("XHR Error");
+                        return WinJS.Promise.wrapError(err);
                     } else if (xhrOrError instanceof Error) {
                         return WinJS.Promise.wrapError(xhrOrError);
                     } else {
-                        return WinJS.Promise.wrapError(new Error("予期せぬエラーが発生"));
+                        return WinJS.Promise.wrapError(new Error("Unexpected Error"));
                     }
                 });
             });
@@ -252,7 +276,8 @@
     });
 
     WinJS.Namespace.define("vividcode.twitter", {
-        TwitterClient: TwitterClient
+        TwitterClient: TwitterClient,
+        TwitterClientRequestError: TwitterClientRequestError
     });
 
 

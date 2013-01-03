@@ -110,6 +110,18 @@
           <source>投稿に失敗しました</source>
           <target state="translated">Failed to tweet</target>
         </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_231_sendTweetClientErrorMsg" translate="yes" xml:space="preserve">
+          <source>入力値が不正である可能性や、認証が無効になっている可能性があります</source>
+          <target state="translated">Because of invalid input value, unavailable authorization, or the like</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_232_sendTweetServerErrorMsg" translate="yes" xml:space="preserve">
+          <source>Twitter のサーバー側でエラーが発生</source>
+          <target state="translated">Server-side error occurred</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_233_sendTweetNetworkErrorMsg" translate="yes" xml:space="preserve">
+          <source>ネットワークの通信エラーが発生</source>
+          <target state="translated">Network error occurred</target>
+        </trans-unit>
         <trans-unit id="resources\appSettingTitle" translate="yes" xml:space="preserve">
           <source>アプリの設定</source>
           <target state="translated" state-qualifier="mt-suggestion">App settings</target>

@@ -53,7 +53,22 @@
                 that.removeReplyTo();
             }, function onError(err) {
                 var errMsg = WinJS.Resources.getString("310_twitterHomeTimeline_225_sendTweetFailedMsg").value;
-                tweetFormElem.querySelector(".error-message").textContent = errMsg + " : " + err.description;
+                var desc;
+                var TCRError = vividcode.twitter.TwitterClientRequestError;
+                if (err instanceof TCRError) {
+                    if (err.name === TCRError.Name.ClientError) {
+                        desc = WinJS.Resources.getString("310_twitterHomeTimeline_231_sendTweetClientErrorMsg").value;
+                    } else if (err.name === TCRError.Name.ServerError) {
+                        desc = WinJS.Resources.getString("310_twitterHomeTimeline_232_sendTweetServerErrorMsg").value;
+                    } else if (err.name === TCRError.Name.NetworkError) {
+                        desc = WinJS.Resources.getString("310_twitterHomeTimeline_233_sendTweetNetworkErrorMsg").value;
+                    } else {
+                        desc = "unknown error";
+                    }
+                } else {
+                    desc = err.description;
+                }
+                tweetFormElem.querySelector(".error-message").textContent = errMsg + " : " + desc;
                 console.dir(err);
             }).then(function () {
                 tweetFormElem.classList.remove("progress");
