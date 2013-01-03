@@ -5,7 +5,7 @@
    ,"002_appDescription" : "Home Timeline の表示 (User Stream API 使用) とツイートの投稿が可能なツイッタークライアントです。"
 
    ,"privacyPolicyWeb_100_title" : "プライバシーポリシー (web)"
-   ,"privacyPolicyWeb_101_url" : "http://www.vividcode.info/project/meteorline/privacypolicy.txt"
+   ,"privacyPolicyWeb_101_url" : "http://www.vividcode.info/project/meteorline/privacypolicy.html"
    ,"appSettingTitle" : "アプリの設定"
    ,"backgroundSetting_100_title" : "背景画像"
    ,"backgroundSetting_101_description1" : "このアプリの背景画像を設定できます。"
