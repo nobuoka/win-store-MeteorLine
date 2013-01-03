@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <title>appSetting</title>
+
+    <!-- WinJS 参照 -->
+    <link href="//Microsoft.WinJS.1.0/css/ui-dark.css" rel="stylesheet" />
+    <script src="//Microsoft.WinJS.1.0/js/base.js"></script>
+    <script src="//Microsoft.WinJS.1.0/js/ui.js"></script>
+
+    <link href="appSetting.css" rel="stylesheet" />
+    <script src="appSetting.js"></script>
+</head>
+<body>
+    <div class="appSetting fragment">
+        <div class="app-setting" data-win-control="WinJS.UI.SettingsFlyout" data-win-options="{settingsCommandId:'appSetting',width:'wide'}">
+            <!-- クラスには 'win-ui-light' か 'win-ui-dark' のどちらかを選択すれば良い (しなくてもいいと思われる) -->
+            <div class="win-ui-dark win-header" style="background-color:#333333"><!-- ヘッダの背景色はアプリのタイルの色に準ずること (ガイドラインより) -->
+                <!-- 設定ウィンドウを表示するボタン -->
+                <button type="button" onclick="WinJS.UI.SettingsFlyout.show()" class="win-backbutton"></button>
+                <h1 class="win-label" data-win-res="{ textContent: 'appSettingTitle' }"></h1>
+            </div>
+            <div class="win-content ">
+                <section class="win-settings-section">
+                    <h2 data-win-res="{ textContent: 'backgroundSetting_100_title' }"></h2>
+                    <p data-win-res="{ textContent: 'backgroundSetting_101_description1' }"></p>
+                    <p data-win-res="{ textContent: 'backgroundSetting_102_description2' }"></p>
+                    <div>
+                        <button class="setting-background-image-button" data-win-res="{ textContent: 'backgroundSetting_111_setupButtonDesc' }"></button>
+                        <button class="removing-background-image-button" data-win-res="{ textContent: 'backgroundSetting_112_removeButtonDesc' }"></button>
+                    </div>
+                    <form class="setting-background-image-position-form">
+                        <div>
+                            <span data-win-res="{ textContent: 'backgroundSetting_121_verticalAlignDesc' }"></span> :
+                            <label><input type="radio" name="background-image-vertical-position" value="top"
+                                /><span data-win-res="{ textContent: 'backgroundSetting_122_verticalAlignTop' }"></span></label>
+                            <label><input type="radio" name="background-image-vertical-position" value="center" checked="checked"
+                                /><span data-win-res="{ textContent: 'backgroundSetting_123_verticalAlignCenter' }"></span></label>
+                            <label><input type="radio" name="background-image-vertical-position" value="bottom"
+                                /><span data-win-res="{ textContent: 'backgroundSetting_124_verticalAlignBottom' }"></span></label>
+                        </div>
+                        <div>
+                            <span data-win-res="{ textContent: 'backgroundSetting_131_horizontalAlignDesc' }"></span> :
+                            <label><input type="radio" name="background-image-horizontal-position" value="left"
+                                /><span data-win-res="{ textContent: 'backgroundSetting_132_horizontalAlignLeft' }"></span></label>
+                            <label><input type="radio" name="background-image-horizontal-position" value="center" checked="checked"
+                                /><span data-win-res="{ textContent: 'backgroundSetting_133_horizontalAlignCenter' }"></span></label>
+                            <label><input type="radio" name="background-image-horizontal-position" value="right"
+                                /><span data-win-res="{ textContent: 'backgroundSetting_134_horizontalAlignRight' }"></span></label>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

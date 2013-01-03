@@ -48,6 +48,10 @@
     <TargetPlatformVersion>8.0</TargetPlatformVersion>
     <DefaultLanguage>ja-JP</DefaultLanguage>
   </PropertyGroup>
+  <PropertyGroup Label="MultilingualAppToolkit">
+    <MakePriLog>$(Temp)\$(MSBuildProjectName)_Multilingual.prilog.xml</MakePriLog>
+    <AppxGenerateProjectPriFileAdditionalMakepriExeParameters>/IndexLog "$(MakePriLog)"</AppxGenerateProjectPriFileAdditionalMakepriExeParameters>
+  </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
@@ -61,6 +65,7 @@
     <Content Include="js\navigator.js" />
     <Content Include="js\oauth.js" />
     <Content Include="js\sha1.js" />
+    <Content Include="js\vividcode\meteorline\BackgroundImageManager.js" />
     <Content Include="js\vividcode\meteorline\Config.js" />
     <Content Include="js\vividcode\meteorline\ui\AccountAddingView.css" />
     <Content Include="js\vividcode\meteorline\ui\AccountAddingView.html" />
@@ -76,18 +81,23 @@
     <Content Include="js\vividcode\meteorline\ui\TimelineView.js" />
     <Content Include="js\vividcode\twitter\OAuthCredentialsObtainer.js" />
     <Content Include="js\vividcode\twitter\TwitterClient.js" />
+    <None Include="MultilingualResources\英語 %28米国%29.xlf" />
     <Content Include="pages\home\home.css" />
     <Content Include="pages\home\home.html" />
     <Content Include="pages\home\home.js" />
     <Content Include="default.html" />
-    <Content Include="pages\setting\privacyPolicy.css" />
-    <Content Include="pages\setting\privacyPolicy.html" />
-    <Content Include="pages\setting\privacyPolicy.js" />
+    <Content Include="pages\setting\appSetting.css" />
+    <Content Include="pages\setting\appSetting.html" />
+    <Content Include="pages\setting\appSetting.js" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.WinJS.1.0, Version=1.0" />
   </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="strings\ja-JP\resources.resjson" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).targets" />
+  <Import Label="MultilingualAppToolkit" Project="$(MSBuildExtensionsPath32)\Microsoft\Multilingual App Toolkit\v1.0\MultilingualBuildTasks.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\Multilingual App Toolkit\v1.0\MultilingualBuildTasks.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below then uncomment
        that target and the DisableFastUpToDateCheck PropertyGroup. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -99,4 +109,7 @@
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
   </PropertyGroup>
   -->
+  <Target Name="AfterBuild">
+    <MultilingualBuild Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\Multilingual App Toolkit\v1.0\MultilingualBuildTasks.targets')" ContinueOnError="false" BldOutputPath="$(IntermediateOutputPath)" BinOutputPath="bin\$(Configuration)" AppName="$(ProjectName)" ProjectPath="$(ProjectPath)" ProjectPriFullPath="$(ProjectPriFullPath)" MakePriLog="$(MakePriLog)" SourceLanguage="$(DefaultLanguage)" />
+  </Target>
 </Project>

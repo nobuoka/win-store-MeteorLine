@@ -17,34 +17,96 @@
     <script src="TimelineView.js"></script>
 </head>
 <body class="timeline-view-component">
+    <!-- status 用テンプレート -->
     <div class="twitter-status-view-template" data-win-control="WinJS.Binding.Template">
-        <div class="status">
+        <div class="status s-glassiness">
             <div class="user-box">
-                <img class="profile-image" src="#" data-win-bind="src: user.profile_image_url_https" />
-                <span class="name" data-win-bind="textContent: user.name"></span>
-                <span class="screen-name">@<span data-win-bind="textContent: user.screen_name"></span></span>
+                <a class="profile-image-container" data-win-bind="href: user.profile_page_uri"
+                    ><img class="profile-image" src="#" data-win-bind="src: user.profile_image_url_https" /></a>
+                <a class="name-container" data-win-bind="href: user.profile_page_uri"
+                    ><span class="name" data-win-bind="textContent: user.name"></span></a>
+                <a class="screen-name-container" data-win-bind="href: user.profile_page_uri"
+                    ><span class="screen-name">@<span data-win-bind="textContent: user.screen_name"></span></span></a>
             </div>
-            <div class="text" data-win-bind="textContent: text"></div>
+            <div class="text" data-win-bind="innerHTML: text_html"></div>
+            <div class="created-at">
+                <a data-win-bind="href: status_uri; textContent: created_at_locale_str"></a>
+            </div>
         </div>
     </div>
-    <section>
-        <h1>@<span data-win-bind="textContent: screenName"></span> - Home Timeline</h1>
-        <div class="stream-control">
-            <div class="stream-working hide">
-                <span class="stream-status">user stream is working</span>
-                <button class="stream-status-toggle-request">停止</button>
+    <!-- retweeted status 用テンプレート -->
+    <div class="twitter-retweeted-status-view-template" data-win-control="WinJS.Binding.Template">
+        <div class="status retweeted-status s-glassiness">
+            <div class="user-box">
+                <a class="profile-image-container" data-win-bind="href: retweeted_status.user.profile_page_uri"
+                    ><img class="profile-image" src="#" data-win-bind="src: retweeted_status.user.profile_image_url_https" /></a>
+                <a class="name-container" data-win-bind="href: retweeted_status.user.profile_page_uri"
+                    ><span class="name" data-win-bind="textContent: retweeted_status.user.name"></span></a>
+                <a class="screen-name-container" data-win-bind="href: retweeted_status.user.profile_page_uri"
+                    ><span class="screen-name">@<span data-win-bind="textContent: retweeted_status.user.screen_name"></span></span></a>
             </div>
-            <div class="stream-not-working">
-                <span class="stream-status">not working</span>
-                <button class="stream-status-toggle-request">開始</button>
+            <div class="text" data-win-bind="innerHTML: retweeted_status.text_html"></div>
+            <div class="created-at">
+                <a data-win-bind="href: retweeted_status.status_uri; textContent: retweeted_status.created_at_locale_str"></a>
+            </div>
+            <div class="retweeter-box">
+                <span>retweeted by </span>
+                <a class="retweeter-name-container" data-win-bind="href: user.profile_page_uri">
+                    <img class="profile-image" src="#" data-win-bind="src: user.profile_image_url_https" />
+                    <span class="name" data-win-bind="textContent: user.name"></span>
+                    <span class="screen-name-container">(@<span class="screen-name" data-win-bind="textContent: user.screen_name"></span>)</span>
+                </a>
+                <span class="created-at">at <span data-win-bind="textContent: created_at_locale_str"></span></span>
             </div>
         </div>
-        <div class="tweet-form">
-            <textarea></textarea>
-            <progress></progress>
-            <div class="error-message"></div>
-            <button class="tweet-button">投稿</button>
-            <button class="cancel-button">閉じる</button>
+    </div>
+    <!-- timeline 上の項目をクリックしたときに表示する flyout -->
+    <div class="timeline-item-flyout" data-win-control="WinJS.UI.Flyout"></div>
+    <div class="timeline-item-flyout-content-template" data-win-control="WinJS.Binding.Template">
+        <div class="target-item-container"></div>
+        <div class="timeline-item-cmds">
+            <div class="timeline-item-cmd timeline-item-cmd-set-reply-to">
+                <button class="before-request cmd-set-reply-to-button" data-win-res="{ textContent: '310_twitterHomeTimeline_111_replyCmd' }"></button>
+                <div class="completed" data-win-res="{ textContent: '310_twitterHomeTimeline_112_setReplyToMsg' }"></div>
+            </div>
+            <div class="timeline-item-cmd timeline-item-cmd-req-fav">
+                <button class="before-request cmd-req-fav-button" data-win-res="{ textContent: '310_twitterHomeTimeline_121_favCmd' }"></button>
+                <progress class="progress win-ring"></progress>
+                <div class="completed" data-win-res="{ textContent: '310_twitterHomeTimeline_122_favedMsg' }"></div>
+            </div>
+            <div class="timeline-item-cmd timeline-item-cmd-req-rt">
+                <button class="before-request cmd-req-rt-button" data-win-res="{ textContent: '310_twitterHomeTimeline_131_retweetCmd' }"></button>
+                <progress class="progress win-ring"></progress>
+                <div class="completed" data-win-res="{ textContent: '310_twitterHomeTimeline_132_retweetedMsg' }"></div>
+            </div>
+        </div>
+    </div>
+
+    <section>
+        <div class="timeline-view-header s-glassiness">
+            <h1>@<span data-win-bind="textContent: screenName"></span> - Home Timeline</h1>
+            <div class="stream-control">
+                <div class="stream-working hide">
+                    <span class="stream-status">user stream is working</span>
+                    <button class="stream-status-toggle-request s-glassiness-button" data-win-res="{ textContent: '310_twitterHomeTimeline_212_userStreamStop' }"></button>
+                </div>
+                <div class="stream-not-working">
+                    <span class="stream-status">not working</span>
+                    <button class="stream-status-toggle-request" data-win-res="{ textContent: '310_twitterHomeTimeline_211_userStreamStart' }"></button>
+                </div>
+            </div>
+            <div class="tweet-form">
+                <div class="status-replied-to-box">
+                    <div>Reply to:</div>
+                    <div class="status-replied-to-container"></div>
+                    <div><button class="reply-cancel-button" data-win-res="{ textContent: '310_twitterHomeTimeline_223_removeReplyTo' }"></button></div>
+                </div>
+                <textarea></textarea>
+                <progress></progress>
+                <div class="error-message"></div>
+                <button class="tweet-button" data-win-res="{ textContent: '310_twitterHomeTimeline_221_sendTweet' }"></button>
+                <button class="cancel-button" data-win-res="{ textContent: '310_twitterHomeTimeline_222_closeTweetForm' }"></button>
+            </div>
         </div>
         <div class="status-list"></div>
     </section>
