@@ -75,16 +75,22 @@
 
     // アプリ設定に関して - 参考 : http://vividcode.hatenablog.com/entry/winrt/app-settings-js
     app.addEventListener("settings", function (evt) {
-        evt.detail.applicationcommands = {
-            // プロパティ名は SettingsFlyout コントロールの ID (settingsCommandId)
-            // title は設定ウィンドウの項目に表示される
-            // href はその SettingsFlyout コントロールが定義されている HTML ファイル
-            privacyPolicy: { title: "プライバシーポリシー", href: "/pages/setting/privacyPolicy.html" },
-            appSetting: { title: "アプリの設定", href: "/pages/setting/appSetting.html" },
-            //name: { title: ..., href: ... },
-            // ...
-        };
+        var cmds = evt.detail.e.request.applicationCommands;
+        cmds.append(new Windows.UI.ApplicationSettings.SettingsCommand("privacyPolicy", WinJS.Resources.getString("privacyPolicyWeb_100_title").value, function (cmd) {
+            var uriToLaunch = WinJS.Resources.getString("privacyPolicyWeb_101_url").value;
+            var uri = new Windows.Foundation.Uri(uriToLaunch);
+            Windows.System.Launcher.launchUriAsync(uri);
+        }));
+        cmds.append(new Windows.UI.ApplicationSettings.SettingsCommand("appSetting", WinJS.Resources.getString("appSettingTitle").value, function (cmd) {
+            WinJS.UI.SettingsFlyout.showSettings("appSetting", "/pages/setting/appSetting.html");
+        }));
+
         WinJS.UI.SettingsFlyout.populateSettings(evt);
+    });
+
+    app.addEventListener("loaded", function (evt) {
+        WinJS.Resources.processAll();
+        WinJS.Resources.addEventListener("contextchanged", function (evt) { WinJS.Resources.processAll() }, false);
     });
 
     app.start();

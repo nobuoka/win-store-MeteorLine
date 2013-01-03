@@ -20,6 +20,7 @@
         // この関数は、ユーザーがこのページに移動するたびに呼び出されます。
         // ページ要素にアプリケーションのデータを設定します。
         ready: function (element, options) {
+            WinJS.Resources.processAll(element);
             var mvc = this._mainViewContainer = new MainViewContainer(element.querySelector("section[role='main']"));
             element.getElementsByClassName("button-account-adding").item(0).addEventListener("click", function (evt) {
                 mvc.showAccountAddingView();

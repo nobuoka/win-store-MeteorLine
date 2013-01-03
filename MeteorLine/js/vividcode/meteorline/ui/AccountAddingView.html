@@ -23,19 +23,23 @@
 <!-- body 要素の class は実際には反映されない. JS 側で PageControl のホスト要素に同名のクラスを設定すること -->
 <body class="account-adding-view-component">
     <section class="s-glassiness">
-        <h1>アカウント管理</h1>
+        <h1 data-win-res="{ textContent: '200_accountManagement_000_title' }"></h1>
         <section>
-            <h1>アカウント追加</h1>
-            <button class="reset-button">アカウント追加処理を最初からやり直す</button>
+            <h1 data-win-res="{ textContent: '200_accountManagement_100_additionTitle' }"></h1>
+            <button class="reset-button" data-win-res="{ textContent: '200_accountManagement_102_restartAccountAddition' }"></button>
             <div class="process">
                 <div class="initial">
-                    <button>Twitter アカウントの認証処理を開始</button>
+                    <button data-win-res="{ textContent: '200_accountManagement_101_startAccountAddition' }"></button>
                 </div>
                 <div class="progress">
                     <progress></progress>
                 </div>
                 <div class="verify-form">
-                    <p><a class="verify-uri" href="#"></a> にアクセスして許可を行い, 表示された文字列を次のフィールドに入力してください.</p>
+                    <p>
+                        <span data-win-res="{ textContent: '200_accountManagement_111_accountAddProcessMessagePre' }"></span>
+                        <a class="verify-uri" href="#"></a>
+                        <span data-win-res="{ textContent: '200_accountManagement_112_accountAddProcessMessagePost' }"></span>
+                    </p>
                     <input class="verifier-input" type="text"/>
                     <button class="verifier-ok-button">OK</button>
                 </div>
@@ -43,7 +47,7 @@
                     <p class="message"></p>
                 </div>
             </div>
-            <p><a href="https://twitter.com/signup">New to Twitter? Register at Twitter.com</a></p>
+            <p><a href="https://twitter.com/signup" data-win-res="{ textContent: '200_accountManagement_115_messageForNotTwitterUser' }"></a></p>
         </section>
         <div class="account-list-view-container">
             <div data-win-control="vividcode.meteorline.ui.AccountListView"

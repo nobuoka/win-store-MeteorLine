@@ -15,6 +15,7 @@
 
         // この PageControl の中身が使えるようになった状態になった後に行う処理
         ready: function (element, options) {
+            WinJS.Resources.processAll(element);
             // アカウントリストの中身を取得; アカウントリストにリスナを設定
             var that = this;
             /// <var name="listView" type="WinJS.UI.ListView">アカウント一覧を表示する ListView</var>
@@ -26,9 +27,10 @@
                 var itemIndex = evt.detail.itemIndex;
                 /// <var name="itemMenu" type="WinJS.UI.Menu">アカウントに対する操作を表示する Menu</var>
                 var itemMenu = that.element.querySelector(".timeline-list-view-item-menu").winControl;
+                var deleteCmdLabel = WinJS.Resources.getString("200_accountManagement_211_deleteAccountCmd").value;
                 var menuCommands = [
                     new WinJS.UI.MenuCommand(void 0, {
-                        label: "削除", onclick: function (evt) {
+                        label: deleteCmdLabel, onclick: function (evt) {
                             // 削除
                             that._accountList.splice(itemIndex, 1);
                         }

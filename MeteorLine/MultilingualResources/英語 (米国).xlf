@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="ja-JP" target-language="en-US" original="MeteorLine_Multilingual.prilog.xml" tool-id="MultilingualAppToolkit" product-name="MeteorLine" product-version="Version 1" build-num="1.0.0.0">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="1.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="resources">
+        <trans-unit id="resources\000_appName" translate="yes" xml:space="preserve">
+          <source>MeteorLine</source>
+          <target state="translated">MeteorLine</target>
+        </trans-unit>
+        <trans-unit id="resources\002_appDescription" translate="yes" xml:space="preserve">
+          <source>Home Timeline の表示 (User Stream API 使用) とツイートの投稿が可能なツイッタークライアントです。</source>
+          <target state="translated">This app is a Twitter client. Using this, you can see your home timeline (using User Stream API) and can post tweets.</target>
+        </trans-unit>
+        <trans-unit id="resources\200_accountManagement_000_title" translate="yes" xml:space="preserve">
+          <source>アカウント管理</source>
+          <target state="translated" state-qualifier="mt-suggestion">Account management</target>
+        </trans-unit>
+        <trans-unit id="resources\200_accountManagement_100_additionTitle" translate="yes" xml:space="preserve">
+          <source>アカウント追加</source>
+          <target state="translated" state-qualifier="mt-suggestion">Add account</target>
+        </trans-unit>
+        <trans-unit id="resources\200_accountManagement_101_startAccountAddition" translate="yes" xml:space="preserve">
+          <source>Twitter アカウントの追加処理を開始</source>
+          <target state="translated">Sign in with a Twitter account</target>
+        </trans-unit>
+        <trans-unit id="resources\200_accountManagement_102_restartAccountAddition" translate="yes" xml:space="preserve">
+          <source>アカウント追加処理を最初からやり直す</source>
+          <target state="translated">Reset sign-in process</target>
+        </trans-unit>
+        <trans-unit id="resources\200_accountManagement_111_accountAddProcessMessagePre" translate="yes" xml:space="preserve">
+          <source>Twitter のページ</source>
+          <target state="translated">Please visit the page</target>
+        </trans-unit>
+        <trans-unit id="resources\200_accountManagement_112_accountAddProcessMessagePost" translate="yes" xml:space="preserve">
+          <source>にアクセスして本アプリのアクセスを許可し、表示された文字列を次のフィールドに入力してください。</source>
+          <target state="translated">to grant access to this app, and then input characters displaied in that page into the following field.</target>
+        </trans-unit>
+        <trans-unit id="resources\200_accountManagement_115_messageForNotTwitterUser" translate="yes" xml:space="preserve">
+          <source>Twitter へのユーザー登録は Twitter.com で行うことができます</source>
+          <target state="translated">New to Twitter? Register at Twitter.com</target>
+        </trans-unit>
+        <trans-unit id="resources\200_accountManagement_121_tempCredsError" translate="yes" xml:space="preserve">
+          <source>通信に失敗しました。 後でやり直してください。</source>
+          <target state="translated">Communication with Twitter server has failed. Please try again.</target>
+        </trans-unit>
+        <trans-unit id="resources\200_accountManagement_122_userCredsError" translate="yes" xml:space="preserve">
+          <source>トークン取得に失敗しました。 通信に失敗したか、入力された値が間違っています。</source>
+          <target state="translated">Failed to get the token. Communication with Twitter server may have failed, or input value may be incorrect.</target>
+        </trans-unit>
+        <trans-unit id="resources\200_accountManagement_200_accountListTitle" translate="yes" xml:space="preserve">
+          <source>アカウント一覧</source>
+          <target state="translated">Your accounts</target>
+        </trans-unit>
+        <trans-unit id="resources\200_accountManagement_211_deleteAccountCmd" translate="yes" xml:space="preserve">
+          <source>削除</source>
+          <target state="translated" state-qualifier="mt-suggestion">Delete</target>
+        </trans-unit>
+        <trans-unit id="resources\300_timelines_000_title" translate="yes" xml:space="preserve">
+          <source>タイムライン一覧</source>
+          <target state="translated">Timelines</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_111_replyCmd" translate="yes" xml:space="preserve">
+          <source>返信</source>
+          <target state="translated">Reply</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_112_setReplyToMsg" translate="yes" xml:space="preserve">
+          <source>返信先設定済</source>
+          <target state="translated">Set reply-to</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_121_favCmd" translate="yes" xml:space="preserve">
+          <source>Fav</source>
+          <target state="translated">Favorite</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_122_favedMsg" translate="yes" xml:space="preserve">
+          <source>Fav 済</source>
+          <target state="translated">Favorited</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_131_retweetCmd" translate="yes" xml:space="preserve">
+          <source>RT</source>
+          <target state="translated">Retweet</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_132_retweetedMsg" translate="yes" xml:space="preserve">
+          <source>RT 済</source>
+          <target state="translated">Retweeted</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_211_userStreamStart" translate="yes" xml:space="preserve">
+          <source>開始</source>
+          <target state="translated">Start</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_212_userStreamStop" translate="yes" xml:space="preserve">
+          <source>停止</source>
+          <target state="translated">Stop</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_221_sendTweet" translate="yes" xml:space="preserve">
+          <source>投稿</source>
+          <target state="translated">Tweet</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_222_closeTweetForm" translate="yes" xml:space="preserve">
+          <source>閉じる</source>
+          <target state="translated">Close</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_223_removeReplyTo" translate="yes" xml:space="preserve">
+          <source>返信をやめる</source>
+          <target state="translated">Remove reply-to</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_225_sendTweetFailedMsg" translate="yes" xml:space="preserve">
+          <source>投稿に失敗しました</source>
+          <target state="translated">Failed to tweet</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_231_sendTweetClientErrorMsg" translate="yes" xml:space="preserve">
+          <source>入力値が不正である可能性や、認証が無効になっている可能性があります</source>
+          <target state="translated">Because of invalid input value, unavailable authorization, or the like</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_232_sendTweetServerErrorMsg" translate="yes" xml:space="preserve">
+          <source>Twitter のサーバー側でエラーが発生</source>
+          <target state="translated">Server-side error occurred</target>
+        </trans-unit>
+        <trans-unit id="resources\310_twitterHomeTimeline_233_sendTweetNetworkErrorMsg" translate="yes" xml:space="preserve">
+          <source>ネットワークの通信エラーが発生</source>
+          <target state="translated">Network error occurred</target>
+        </trans-unit>
+        <trans-unit id="resources\appSettingTitle" translate="yes" xml:space="preserve">
+          <source>アプリの設定</source>
+          <target state="translated" state-qualifier="mt-suggestion">App settings</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_100_title" translate="yes" xml:space="preserve">
+          <source>背景画像</source>
+          <target state="translated" state-qualifier="mt-suggestion">Background image</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_101_description1" translate="yes" xml:space="preserve">
+          <source>このアプリの背景画像を設定できます。</source>
+          <target state="translated" state-qualifier="mt-suggestion">You can set the background image for this app.</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_102_description2" translate="yes" xml:space="preserve">
+          <source>背景画像は、アプリ全体を覆うように縦横比を保ったまま拡大縮小されます。</source>
+          <target state="translated">The background image is scaled so that the image covers the entire app. The aspect ratio of the image is kept.</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_111_setupButtonDesc" translate="yes" xml:space="preserve">
+          <source>背景画像を設定</source>
+          <target state="translated">Choose background image</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_112_removeButtonDesc" translate="yes" xml:space="preserve">
+          <source>背景画像を削除</source>
+          <target state="translated">Remove background image</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_121_verticalAlignDesc" translate="yes" xml:space="preserve">
+          <source>縦方向位置揃え</source>
+          <target state="translated">Vertical alignment</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_122_verticalAlignTop" translate="yes" xml:space="preserve">
+          <source>上端</source>
+          <target state="translated">Top</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_123_verticalAlignCenter" translate="yes" xml:space="preserve">
+          <source>中央</source>
+          <target state="translated">Center</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_124_verticalAlignBottom" translate="yes" xml:space="preserve">
+          <source>下端</source>
+          <target state="translated">Bottom</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_131_horizontalAlignDesc" translate="yes" xml:space="preserve">
+          <source>横方向位置揃え</source>
+          <target state="translated">Horizontal alignment</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_132_horizontalAlignLeft" translate="yes" xml:space="preserve">
+          <source>左端</source>
+          <target state="translated">Left</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_133_horizontalAlignCenter" translate="yes" xml:space="preserve">
+          <source>中央</source>
+          <target state="translated">Center</target>
+        </trans-unit>
+        <trans-unit id="resources\backgroundSetting_134_horizontalAlignRight" translate="yes" xml:space="preserve">
+          <source>右端</source>
+          <target state="translated">Right</target>
+        </trans-unit>
+        <trans-unit id="resources\privacyPolicyWeb_100_title" translate="yes" xml:space="preserve">
+          <source>プライバシーポリシー (web)</source>
+          <target state="translated">Privacy policy (web)</target>
+        </trans-unit>
+        <trans-unit id="resources\privacyPolicyWeb_101_url" translate="yes" xml:space="preserve">
+          <source>http://www.vividcode.info/project/meteorline/privacypolicy.txt</source>
+          <target state="translated">http://www.vividcode.info/project/meteorline/privacypolicy.txt</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

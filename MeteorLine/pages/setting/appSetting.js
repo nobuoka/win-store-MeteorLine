@@ -24,6 +24,10 @@
             this.__setEventListenersOntoAppSettingView();
         },
 
+        ready: function (element, options) {
+            WinJS.Resources.processAll(element);
+        },
+
         // 注意) showSettingsFlyout によって SettingsFlyout が表示された場合, SettingsFlyout を閉じる際に
         // unload イベントが呼び出されることなく DOM ツリーから PageControl が除去される
 

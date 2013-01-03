@@ -66,18 +66,18 @@
         <div class="target-item-container"></div>
         <div class="timeline-item-cmds">
             <div class="timeline-item-cmd timeline-item-cmd-set-reply-to">
-                <button class="before-request cmd-set-reply-to-button">返信</button>
-                <div class="completed">返信先設定済</div>
+                <button class="before-request cmd-set-reply-to-button" data-win-res="{ textContent: '310_twitterHomeTimeline_111_replyCmd' }"></button>
+                <div class="completed" data-win-res="{ textContent: '310_twitterHomeTimeline_112_setReplyToMsg' }"></div>
             </div>
             <div class="timeline-item-cmd timeline-item-cmd-req-fav">
-                <button class="before-request cmd-req-fav-button">Fav</button>
+                <button class="before-request cmd-req-fav-button" data-win-res="{ textContent: '310_twitterHomeTimeline_121_favCmd' }"></button>
                 <progress class="progress win-ring"></progress>
-                <div class="completed">Fav 済</div>
+                <div class="completed" data-win-res="{ textContent: '310_twitterHomeTimeline_122_favedMsg' }"></div>
             </div>
             <div class="timeline-item-cmd timeline-item-cmd-req-rt">
-                <button class="before-request cmd-req-rt-button">RT</button>
+                <button class="before-request cmd-req-rt-button" data-win-res="{ textContent: '310_twitterHomeTimeline_131_retweetCmd' }"></button>
                 <progress class="progress win-ring"></progress>
-                <div class="completed">RT 済</div>
+                <div class="completed" data-win-res="{ textContent: '310_twitterHomeTimeline_132_retweetedMsg' }"></div>
             </div>
         </div>
     </div>
@@ -88,24 +88,24 @@
             <div class="stream-control">
                 <div class="stream-working hide">
                     <span class="stream-status">user stream is working</span>
-                    <button class="stream-status-toggle-request s-glassiness-button">停止</button>
+                    <button class="stream-status-toggle-request s-glassiness-button" data-win-res="{ textContent: '310_twitterHomeTimeline_212_userStreamStop' }"></button>
                 </div>
                 <div class="stream-not-working">
                     <span class="stream-status">not working</span>
-                    <button class="stream-status-toggle-request">開始</button>
+                    <button class="stream-status-toggle-request" data-win-res="{ textContent: '310_twitterHomeTimeline_211_userStreamStart' }"></button>
                 </div>
             </div>
             <div class="tweet-form">
                 <div class="status-replied-to-box">
                     <div>Reply to:</div>
                     <div class="status-replied-to-container"></div>
-                    <div><button class="reply-cancel-button">返信をやめる</button></div>
+                    <div><button class="reply-cancel-button" data-win-res="{ textContent: '310_twitterHomeTimeline_223_removeReplyTo' }"></button></div>
                 </div>
                 <textarea></textarea>
                 <progress></progress>
                 <div class="error-message"></div>
-                <button class="tweet-button">投稿</button>
-                <button class="cancel-button">閉じる</button>
+                <button class="tweet-button" data-win-res="{ textContent: '310_twitterHomeTimeline_221_sendTweet' }"></button>
+                <button class="cancel-button" data-win-res="{ textContent: '310_twitterHomeTimeline_222_closeTweetForm' }"></button>
             </div>
         </div>
         <div class="status-list"></div>
