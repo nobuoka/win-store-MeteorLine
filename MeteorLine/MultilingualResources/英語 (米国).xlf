@@ -183,8 +183,8 @@
           <target state="translated">Privacy policy (web)</target>
         </trans-unit>
         <trans-unit id="resources\privacyPolicyWeb_101_url" translate="yes" xml:space="preserve">
-          <source>http://www.vividcode.info/project/meteorline/privacypolicy.txt</source>
-          <target state="translated">http://www.vividcode.info/project/meteorline/privacypolicy.txt</target>
+          <source>http://www.vividcode.info/project/meteorline/privacypolicy.html</source>
+          <target state="translated">http://www.vividcode.info/project/meteorline/en/privacypolicy.html</target>
         </trans-unit>
       </group>
     </body>
