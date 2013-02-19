@@ -21,14 +21,16 @@
     <!-- 読み込まれて表示されるコンテンツです。 -->
     <div class="fragment homepage">
         <header aria-label="Header content" role="banner">
-            <h1 class="titlearea win-type-ellipsis">
-                <span class="pagetitle">MeteorLine</span>
+            <h1 class="titlearea win-type-ellipsis s-glassiness-text">
+                <span class="pagetitle" data-win-res="{ textContent: '000_appName' }"></span>
             </h1>
         </header>
         <section aria-label="Main content" role="main">
             <div class="buttons">
-                <button class="button-account-adding">アカウント管理</button>
-                <button class="button-timelines-container">タイムライン一覧</button>
+                <span class="s-glassiness"><button class="button-account-adding"
+                    data-win-res="{ textContent: '200_accountManagement_000_title' }"></button></span>
+                <span class="s-glassiness"><button class="button-timelines-container"
+                    data-win-res="{ textContent: '300_timelines_000_title' }"></button></span>
             </div>
             <div class="container">
                 <div class="account-adding-view" data-win-control="vividcode.meteorline.ui.AccountAddingView"

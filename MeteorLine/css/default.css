@@ -1,4 +1,20 @@
 ﻿
+body {
+    background-size: cover;
+    background-color: #555555;
+}
+
+/* リンク色: ui-dark.css の上書き */
+a {
+    color: rgba(137, 195, 235, 1); /* 空色 */
+}
+a:hover:active {
+    color: rgba(137, 195, 235, 0.6);
+}
+a:hover {
+    color: rgba(137, 195, 235, 0.8);
+}
+
 #contenthost {
     height: 100%;
     width: 100%;
@@ -23,4 +39,18 @@
 }
 
 @media screen and (-ms-view-state: fullscreen-portrait) {
+}
+
+/* s- prefix 付のクラスはここで定義 */
+.s-glassiness-text {
+    text-shadow: 0px 0px 6px #999;
+}
+
+.s-glassiness {
+    background-color: rgba(0, 0, 0, 0.6);
+    text-shadow: 0 0 2px #666;
+}
+.win-ui-light .s-glassiness {
+    background-color: rgba(255, 255, 255, 0.6);
+    text-shadow: 0 0 2px #999;
 }
