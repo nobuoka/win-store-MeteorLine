@@ -7,7 +7,7 @@ Windows ストアアプリ “MeteorLine” のソースコードです。
 
 一般の Windows ユーザーの方で MeteorLine を利用したい方は、下記ページをご覧ください。
 
-* http://apps.microsoft.com/windows/ja-JP/app/meteorline/3e20fa73-bf60-470c-9360-cf7b77a63437
+* [MeteorLine — Windows ストア](http://apps.microsoft.com/windows/ja-JP/app/meteorline/3e20fa73-bf60-470c-9360-cf7b77a63437)
 
 手元での実行方法
 ------------------------------
@@ -16,6 +16,6 @@ Windows ストアアプリ “MeteorLine” のソースコードです。
 git clone するのが一番良いかと思いますが、GitHub では ZIP でダウンロードすることも可能です。
 
 Visual Studio でプロジェクトを開き、MeteorLine/js/vividcode/meteorline/Config.js の内容を書きかえてください。
-バージョン 0.1.0.2 現在、書きかえるべき場所は Twitter の Client Credentials のみです。
+バージョン 0.2.0.0 現在、書きかえるべき場所は Twitter の Client Credentials のみです。
 
 あとは普通のプロジェクトと同様に実行してもらえれば問題なく動作するはずです。
